@@ -1,0 +1,40 @@
+{
+  "name": "crossframe-pendo",
+  "version": "0.10.0",
+  "description": "Allows Pendo guides to work cross-frame",
+  "keywords": [
+    "Pendo",
+    "guide",
+    "walkthrough",
+    "iframe"
+  ],
+  "homepage": "https://github.com/MyPureCloud/crossframe-pendo",
+  "bugs": "https://github.com/MyPureCloud/crossframe-pendo/issues",
+  "license": "MIT",
+  "author": "Interactive Intelligence, Inc.",
+  "contributors": [
+    "Mike McAuley <mike.mcauley@inin.com>"
+  ],
+  "main": "dist/crossframe-pendo.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MyPureCloud/crossframe-pendo.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-es2015-block-scoping": "^6.15.0",
+    "babel-plugin-transform-es2015-for-of": "^6.8.0",
+    "babel-plugin-transform-es2015-parameters": "^6.11.4",
+    "es6-promise": "^3.2.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-webpack": "^1.0.14",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
+  }
+}

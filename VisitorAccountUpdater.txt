@@ -1,0 +1,5 @@
+perl -pi -w -e 's/Test Visitor 2/Test Visitor 1/g;' ~/Documents/GitHub/heffraleigh.github.io/demo_site/*.html
+perl -pi -w -e 's/Test Account 2/Test Account 1/g;' ~/Documents/GitHub/heffraleigh.github.io/demo_site/*.html
+git add .
+git commit -m "Add existing files"
+git push origin HeffRaleigh/demo_site

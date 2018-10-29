@@ -22,39 +22,42 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
- <script>
-  (function(apiKey){
-    (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
-      v=['initialize','identify','updateOptions','pageLoad'];for(w=0,x=v.length;w<x;++w)(function(m){
-      o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
-      y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
-      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
+		<script>
+			var randomNumber = Math.floor(Math.random() * 6 ) + 1;
+		</script>
+		<script>
+		  (function(apiKey){
+		    (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
+		      v=['initialize','identify','updateOptions','pageLoad'];for(w=0,x=v.length;w<x;++w)(function(m){
+		      o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
+		      y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
+		      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
 
-    // Call this whenever information about your visitors becomes available
-    // Please use Strings, Numbers, or Bools for value types.
-    pendo.initialize({
-      visitor: {
-        id:              'Test Visitor 1'   // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
-        // email:        // Optional
-        // role:         // Optional
+		    // Call this whenever information about your visitors becomes available
+		    // Please use Strings, Numbers, or Bools for value types.
+		    pendo.initialize({
+		      visitor: {
+		        id:              'Test Visitor ' + randomNumber   // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
+		        // email:        // Optional
+		        // role:         // Optional
 
-        // You can add any additional visitor level key-values here,
-        // as long as it's not one of the above reserved names.
-      },
+		        // You can add any additional visitor level key-values here,
+		        // as long as it's not one of the above reserved names.
+		      },
 
-      account: {
-        id:           'Test Account 1' // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
-        // name:         // Optional
-        // planLevel:    // Optional
-        // planPrice:    // Optional
-        // creationDate: // Optional
+		      account: {
+		        id:           'Test Account ' + randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
+		        // name:         // Optional
+		        // planLevel:    // Optional
+		        // planPrice:    // Optional
+		        // creationDate: // Optional
 
-        // You can add any additional account level key-values here,
-        // as long as it's not one of the above reserved names.
-      }
-    });
-  })('1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
- </script>
+		        // You can add any additional account level key-values here,
+		        // as long as it's not one of the above reserved names.
+		      }
+		    });
+		  })('1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
+		</script>
 	</head>
 	<body>
 

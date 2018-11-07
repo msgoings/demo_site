@@ -27,6 +27,7 @@
 
 		<script>
 			var randomNumber = Math.floor(Math.random() * 100 ) + 1;
+			var randomNumber1 = Math.floor(Math.random() * 9 ) + 1;
 		</script>
 		<script>
 		  (function(apiKey){
@@ -40,7 +41,7 @@
 		    // Please use Strings, Numbers, or Bools for value types.
 		    pendo.initialize({
 		      visitor: {
-		        id:              'Test Visitor ' + randomNumber   // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
+		        id:              'Test Visitor ' + randomNumber + '.' + randomNumber1  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
 		        // email:        // Optional
 		        // role:         // Optional
 

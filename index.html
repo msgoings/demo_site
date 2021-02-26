@@ -45,18 +45,18 @@
 				pendo.initialize({
 		      visitor: {
 		        id:        		'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
-		        email:   	 		'markg@pendo.io',
-		        full_name:	  'Mark G.',
-						role:         userRole,
-						tier:					planTier,
-						tags: 		 		[{"role" : [userRole]}, {"planTier" : [planTier]}, {test : [success]}
+		        email:   	 	'markg@pendo.io',
+		        full_name:	  	'Mark G.',
+			role:         		userRole,
+			tier:			planTier,
+			tags: 		 	[{"role" : [userRole]}, {"planTier" : [planTier]}, {test : [success]}
 						
 		        // You can add any additional visitor level key-values here,
 		        // as long as it's not one of the above reserved names.
 		      },
 
 		      account: {
-		        id:           'Test Account Random' + //randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
+		        id:           'Test Account Random', //+ randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
 		        tags: 	      [{test : [success]}
 			// name:         // Optional
 		        // planLevel:    // Optional

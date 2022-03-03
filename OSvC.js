@@ -1,1163 +1,808 @@
-/**
- * color assignments
- * these variable names match the class name they're tied to
- * want to update the color? simply change the hex code and it will automatically
- * apply that color to the associated class/element.
- *
- * for example, to update the @header--border-bottom color to black, we would use:
- * @pendo-launcher-header--border-bottom: #000;
- *
- * more information on lesscss can be found here: http://lesscss.org/#variables
- *
- */
+(function pendoInAppKnowledgebase(dom) {
 
-/* main header */
-@header--border-bottom: #f4f4f7;
+    var retrieveTopTen = pendo._.debounce(function(e) {
+        var featuredArticleIds = ["17577", "27775", "13694", "27675", "27902", "13722", "11644", "14526", "12897", "12021"];
 
-/* search box + results */
-@search-box--background-color: #fff;
-@search-box--border-color: #8E8e8e;
-@search-box--placeholder-color: #007398;
-@search-results--header-text-color: #000000;
-@search-results--clear-search-link-color: #2e2e2e;
-@search-results--no-results-found-text-color: #000000;
-@search-results--no-results-found-subtext-color: #000000;
-@search-results--search-display-return-color: #000000;
-@search-results--search-highlight-color: #fff5cd;
-@search-results--link-hover-color: #E9711C;
-
-/* content section headers */
-@section-header--border-bottom-color: #f4f4f7;
-@section-footer--border-top-color: #f4f4f7;
-
-/* guides listing in each section */
-@guide-list--link-color: #000000;
-
-/* z-index */
-@base-zIndex: 200000;
-@enableSearchTop: 125px;
-
-/* font */
-@font-face {
-    font-family: 'verdana', 'geneva', 'sans-serif'!important;
-    font-style: normal;
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: 'verdana', 'geneva', 'sans-serif'!important;
-    font-style: bold;
-    font-weight: 700;
-}
-
-@main-font: 'verdana', 'geneva', 'sans-serif'!important;
-
-/* animations/transitions */
-@duration: 320ms;
-@animation-delay--zero: 0ms;
-@animation-delay--half: @duration / 2;
-@animation-delay--full: @duration;
-
-/* timing */
-@easeInOut: cubic-bezier(0.23, 1, 0.32, 1);
-
-.keyframes (@name; @rules) {
-    @-webkit-keyframes @name {
-        @rules();
-    }
-    @-moz-keyframes @name {
-        @rules();
-    }
-    @-ms-keyframes @name {
-        @rules();
-    }
-    @keyframes @name {
-        @rules();
-    }
-}
-
-.opacity(@amount) {
-    @opacity: @amount * 100;
-    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=@opacity);
-    filter: alpha(opacity=@opacity);
-    opacity: @amount;
-}
-
-.border-radius (@radius: 3px) {
-    -webkit-border-radius: @radius;
-    -moz-border-radius: @radius;
-    border-radius: @radius;
-
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-}
-
-.animation (...) {
-    -webkit-animation: @arguments;
-    -moz-animation: @arguments;
-    -ms-animation: @arguments;
-    animation: @arguments;
-}
-
-.transition (...) {
-    -webkit-transition: @arguments;
-    -moz-transition: @arguments;
-    -ms-transition: @arguments;
-    -o-transition: @arguments;
-    transition: @arguments;
-}
-
-.transform (...) {
-    -webkit-transform: @arguments;
-    -moz-transform: @arguments;
-    -ms-transform: @arguments;
-    -o-transform: @arguments;
-    transform: @arguments;
-}
-
-/* reset button styles in order to prevent picking up styles  */
-
-button {
-    background: none;
-    border: 0;
-    color: inherit;
-    font: inherit;
-    line-height: normal;
-    overflow: visible;
-    padding: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    &::-moz-focus-inner {
-        border: 0;
-        padding: 0;
-    }
-
-    &:focus {
-        outline: -webkit-focus-ring-color auto 0;
-    }
-}
-
-/* font-smooth on displays that support it */
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.3),
-    only screen and (-o-min-device-pixel-ratio: 13/10),
-    only screen and (min-resolution: 120dpi) {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* ------------------------------
- * -- main launcher/menu view ---
- * ------------------------------ */
-
- ._pendo-invisible_ {
-    display: none !important;
-}
-
-
-._pendo-launcher-content_ {
-    line-height: 1em;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
-
-
-._pendo-section-content-article-header_ {
-    line-height: 24px;
-    font-size: 16px;
-    margin: 5px 15px 0px;
-}
-
-._pendo-kb-search_ {
-    position: relative;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 60px;
-    overflow-y: hidden !important;
-}
-
-    /* ------------------------------
-   * --------- search box ---------
-   * ------------------------------ */
-    ._pendo-launcher-search-box_ {
-        background-color: @search-box--background-color;
-        border-bottom: 3px solid @search-box--border-color;
-        border-radius: 0px !important;
-        margin: 15px 20px 15px !important;
-        position: relative;
-
-        input[type='text'] {
-            width: calc(~'100% - 68px');
-            padding: 10px 0 14px;
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 32px;
-            outline: none;
-            border: 0;
-            -webkit-appearance: textfield;
-            height: 33px !important;
-            display: inline-block;
-            color: #000;
-            &::-webkit-input-placeholder {
-                color: @search-box--placeholder-color;
-            }
-            &::-moz-input-placeholder {
-                color: @search-box--placeholder-color;
-            }
-            &::-ms-input-placeholder {
-                color: @search-box--placeholder-color;
-            }
-            &::-moz-placeholder {
-                color: @search-box--placeholder-color;
-            }
-            &::placeholder {
-                color: @search-box--placeholder-color;
-            }
-            &::-ms-clear {
-                display: none;
+        function expandable(suggestion){
+            if(suggestion.lastElementChild.classList.contains('_pendo-kb-acc-collapsed')) {
+                suggestion.classList.add('_kb-acc-active');
+                suggestion.classList.remove('_kb-acc-collapsed');
+                suggestion.lastElementChild.style.height="auto";
+                suggestion.lastElementChild.classList.add('_pendo-kb-acc-active');
+                suggestion.lastElementChild.classList.remove('_pendo-kb-acc-collapsed');
+                suggestion.lastElementChild.style.display="block";
+            } else {
+                suggestion.classList.remove('_kb-acc-active');
+                suggestion.classList.add('_kb-acc-collapsed');
+                suggestion.lastElementChild.classList.remove('_pendo-kb-acc-active');
+                suggestion.lastElementChild.classList.add('_pendo-kb-acc-collapsed');
+                suggestion.lastElementChild.style.display="none";
             }
         }
+        contentLoading();
+        dom(resultsElement).html('');
+        switchResultsContext('suggested');
+        show(topSearch);
 
-        ._pendo-launcher-search-icon_,
-        ._pendo-launcher-clear-search-icon_,
-        ._pendo-ext-search-controller-loading_ {
-            max-width: 32px;
-            max-height: 32px;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+        var requestsArr = [];
+        var responses = [];
+        pendo._.each(featuredArticleIds, function (id) {
+            requestsArr.push({
+                url: searchUrl + id,
+                method: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+            });
+        });
+        pendo._.each(requestsArr, function (request) {
+            responses.push(pendo.ajax(request));
+        });
 
-        ._pendo-launcher-search-icon_ {
-            width: 32px;
-            height: 23px;
-            display: inline-block;
-            vertical-align: middle;
-            margin: auto;
-            margin-right: -4px;
-            background-size: 13px;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTcuNzIyNTIyMiAxNi4zODI3NDA5bC0xLjMzOTc4MTMgMS4zMzk3ODEzLTQuOTY3NzgyNS00Ljk2Nzc4MjVjLTEuMTk1Mzg4NC45MTMyODk1LTIuNjg5MTg4MzUgMS40NTU3ODY2LTQuMzA5Njk1MjQgMS40NTU3ODY2QzMuMTgxMTM0NyAxNC4yMTA1MjYzIDAgMTEuMDI5MzkxNiAwIDcuMTA1MjYzMTYgMCAzLjE4MTEzNDcgMy4xODExMzQ3IDAgNy4xMDUyNjMxNiAwYzMuOTI0MTI4NDQgMCA3LjEwNTI2MzE0IDMuMTgxMTM0NyA3LjEwNTI2MzE0IDcuMTA1MjYzMTYgMCAxLjYyMDUwNjktLjU0MjQ5NzEgMy4xMTQzMDY4NC0xLjQ1NTc4NjYgNC4zMDk2OTUyNGw0Ljk2Nzc4MjUgNC45Njc3ODI1ek03LjEwNTI2MzE2IDEyLjMxNTc4OTVjMi44Nzc2OTQyIDAgNS4yMTA1MjYzNC0yLjMzMjgzMjE0IDUuMjEwNTI2MzQtNS4yMTA1MjYzNCAwLTIuODc3Njk0Mi0yLjMzMjgzMjE0LTUuMjEwNTI2MzItNS4yMTA1MjYzNC01LjIxMDUyNjMyLTIuODc3Njk0MiAwLTUuMjEwNTI2MzIgMi4zMzI4MzIxMi01LjIxMDUyNjMyIDUuMjEwNTI2MzIgMCAyLjg3NzY5NDIgMi4zMzI4MzIxMiA1LjIxMDUyNjM0IDUuMjEwNTI2MzIgNS4yMTA1MjYzNHoiIGZpbGw9IiNCQUJDQzUiPjwvcGF0aD48L3N2Zz4=');
-        }
+        Promise.all(responses)
+            .then(function (response) {
+                pendo._.each(response, function(item) {
+                    if (!pendo._.isEmpty(item.data.data.answers)) {
+                        makeSuggestions(item.data.data.answers);
+                        switchResultsContext('suggested');
+                        contentLoaded(resultsElement);
+                    }
+                });
+                pendo._.each(pendo.dom("._pendo-suggestions-collapsible"), function(suggestion) {
+                    suggestion.previousSibling.removeEventListener('click', function() {
+                        expandable(suggestion.parentElement)
+                    });
+                    suggestion.classList.add('_pendo-kb-acc-collapsed');
+                    suggestion.style.display="none";
+                    suggestion.previousSibling.addEventListener('click', function() {
+                        expandable(suggestion.parentElement)
+                    });
+                });
+            })
+            .catch((err) => console.log(err));
 
-        ._pendo-launcher-search-icon_ svg {
-            display: inline-block;
-        }
+    }, 1000);
 
-        ._pendo-launcher-clear-search-icon_ {
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-            background-color: transparent;
-            border: none;
-            float: right;
-            background-size: 14px;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNXB4IiB2aWV3Qm94PSIwIDAgMTQgMTUiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBhdGggZD0iTTcsMCBDOC44NTY1MTU0MywxLjEzNjc4Nzg0ZS0xNiAxMC42MzY5OTI4LDAuNzM3NDk3ODgzIDExLjk0OTc0NzUsMi4wNTAyNTI1MyBDMTMuMjYyNTAyMSwzLjM2MzAwNzE4IDE0LDUuMTQzNDg0NTcgMTQsNyBDMTQsMTAuODY1OTkzMiAxMC44NjU5OTMyLDE0IDcsMTQgQzMuMTM0MDA2NzUsMTQgLTQuNzM0NDc2MjZlLTE2LDEwLjg2NTk5MzIgMCw3IEM0LjczNDQ3NjI2ZS0xNiwzLjEzNDAwNjc1IDMuMTM0MDA2NzUsLTIuMzY3MjM4MTNlLTE2IDcsMCBaIE0xMC4wNSw5LjA3NSBMOCw3IEwxMC4wNzUsNC45NSBDMTAuMzUxMTQyNCw0LjY3Mzg1NzYzIDEwLjM1MTE0MjQsNC4yMjYxNDIzNyAxMC4wNzUsMy45NSBDOS43OTg4NTc2MywzLjY3Mzg1NzYzIDkuMzUxMTQyMzcsMy42NzM4NTc2MyA5LjA3NSwzLjk1IEw3LDYgTDQuOTUsMy45MjUgQzQuNjczODU3NjIsMy42NDg4NTc2MyA0LjIyNjE0MjM4LDMuNjQ4ODU3NjQgMy45NTAwMDAwMSwzLjkyNTAwMDAxIEMzLjY3Mzg1NzY0LDQuMjAxMTQyMzggMy42NzM4NTc2Myw0LjY0ODg1NzYyIDMuOTUsNC45MjUgTDYsNyBMMy45MjUsOS4wNSBDMy43ODgwMzU2Miw5LjE4MDI1MzA2IDMuNzEwNDk5NzQsOS4zNjA5ODkxNSAzLjcxMDQ5OTc0LDkuNTUgQzMuNzEwNDk5NzQsOS43MzkwMTA4NSAzLjc4ODAzNTYyLDkuOTE5NzQ2OTQgMy45MjUsMTAuMDUgQzQuMDU1MjUzMDYsMTAuMTg2OTY0NCA0LjIzNTk4OTE1LDEwLjI2NDUwMDMgNC40MjUsMTAuMjY0NTAwMyBDNC42MTQwMTA4NSwxMC4yNjQ1MDAzIDQuNzk0NzQ2OTQsMTAuMTg2OTY0NCA0LjkyNSwxMC4wNSBMNyw4IEw5LjA1LDEwLjA3NSBDOS4zMjYxNDIzNywxMC4zNTExNDI0IDkuNzczODU3NjMsMTAuMzUxMTQyNCAxMC4wNSwxMC4wNzUgQzEwLjMyNjE0MjQsOS43OTg4NTc2MyAxMC4zMjYxNDI0LDkuMzUxMTQyMzcgMTAuMDUsOS4wNzUgWiIgaWQ9IkRlbGV0ZS1Db3B5LTQiIHN0cm9rZT0ibm9uZSIgZmlsbD0iI0JBQkNDNSIgZmlsbC1ydWxlPSJldmVub2RkIj48L3BhdGg+PC9zdmc+');
 
-            &:focus {
-                outline: none;
+    var launcherDiv = dom('#_pendo-kb_');
+    var resultsElement = dom('._pendo-section-content-body-results_');
+    var emptySearch = dom('._pendo-section-content-search-empty_');
+    var searchInput = dom('#_pendo-launcher-kb-search-input_');
+    var topSearch = dom('._pendo-section-content-body-top-searches_');
+    var clearSearchIcon = dom('._pendo-launcher-clear-search-icon_');
+    var articleDisplay = dom('._pendo-section-content-body-article_');
+    var loadingContentElement = dom('._pendo-ext-search-controller-loading_');
+    var invisibleClass = '_pendo-invisible_';
+
+
+    //retrieve all articles as soon as the module loads, use that to power suggestedArticlesTemplate
+
+    var knowledgeBaseURL = 'https://service.elsevier.com/cgi-bin/elsevier5.cfg/php/custom/custom-api-kb.php?route=answers&supporthub=reaxys';
+    var articleLinkUrl = knowledgeBaseURL
+    var searchUrl =
+        knowledgeBaseURL + '&search=';
+    var articleUrl = knowledgeBaseURL;
+
+    var containerStyles =
+        '._pendo-ext-zoom-container_{position:absolute;-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);filter:alpha(opacity=100);opacity:1;z-index:300002}';
+    var contentStyles =
+        '._pendo-ext-zoom-content_{position:relative;-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=1);filter:alpha(opacity=100);opacity:1;max-height:none;max-width:none;height:auto;}';
+    var overlayStyles =
+        '._pendo-ext-zoom-overlay_{background-color:#fff;position:fixed;top:0;bottom:0;left:0;right:0;-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0);filter:alpha(opacity=0);opacity:0;z-index:300001;cursor:progress;}._pendo-ext-zoom-overlay_._pendo-ext-zoom-overlay-active_{-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=85);filter:alpha(opacity=85);opacity:0.85;cursor:zoom-out;}';
+    var styles = containerStyles + contentStyles + overlayStyles;
+    var transitionDuration = 300;
+    var margin = 80;
+    var container = null;
+    var overlay = null;
+    var content = null;
+
+    //start by populating the suggested articles list
+    retrieveTopTen();
+
+
+    pendo
+        .dom('body')
+        .on(
+            'click',
+            '._pendo-ext-zoom-overlay_, ._pendo-ext-zoom-container_',
+            function(e) {
+                pendo.log('removing overlay');
+                triggerZoomOut();
             }
-        }
+        );
 
-        ._pendo-ext-search-controller-loading_ {
-            //opacity: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            float: right;
-            background-color: transparent;
-            background-size: 14px;
-            background-image: url("data:image/svg+xml;base64,PHN2Zw0KICB3aWR0aD0nMTYnDQogIGhlaWdodD0nMTYnDQogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyINCiAgdmVyc2lvbj0iMS4xIg0KICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayINCiAgdmlld0JveD0iMCAwIDMyIDMyIg0KPg0KICA8cGF0aA0KICAgIG9wYWNpdHk9Ii4yNSINCiAgICBkPSJNMTYgMCBBMTYgMTYgMCAwIDAgMTYgMzIgQTE2IDE2IDAgMCAwIDE2IDAgTTE2IDQgQTEyIDEyIDAgMCAxIDE2IDI4IEExMiAxMiAwIDAgMSAxNiA0Ig0KICAgIGZpbGw9IiNDQ0MiDQogIC8+DQogIDxwYXRoIGQ9Ik0xNiAwIEExNiAxNiAwIDAgMSAzMiAxNiBMMjggMTYgQTEyIDEyIDAgMCAwIDE2IDR6IiBmaWxsPSIjOWE5Y2E1Ij4NCiAgPC9wYXRoPg0KPC9zdmc+");
-            -webkit-animation: pendo-ext-spin 0.55s infinite 0.30s linear;
-            animation: pendo-ext-spin 0.55s infinite 0.30s linear;
-        }
+    function renderFeaturedArticles(data){
+        pendo._.each(data, (suggestion) => {
+            dom(resultsElement).append(
+                '<li class="_pendo-tt-suggestion_"><a  class="_pendo-article-link_" data-id="' +
+                    suggestion.ID +
+                    '" target="_pendo-section-content-helpcenter-article-frame_">' +
+                    suggestion.Summary +
+                    '</a></li>'
+            );
+        });
     }
 
+    function injectStyles(id, styles) {
+        if (document.getElementById(id)) return;
+        // Older versions of IE do not like it when you try to create <style> tags
+        // https://www.quirksmode.org/bugreports/archives/2006/01/IE_wont_allow_documentcreateElementstyle.html
+        var stylesContainer = document.createElement('div');
+        stylesContainer.innerHTML =
+            '<p>pendo</p><style id="' +
+            id +
+            '" type="text/css">' +
+            styles +
+            '</style>';
+        document
+            .getElementsByTagName('head')[0]
+            .appendChild(stylesContainer.childNodes[1]);
+    }
 
-/* ------------------------------
- * ------- search results -------
- * ------------------------------ */
+    function setTransformStyles(element, transform) {
+        dom(element).css({
+            webkitTransform: transform,
+            mozTransform: transform,
+            msTransform: transform,
+            oTransform: transform,
+            transform: transform,
+            cursor: 'zoom-out'
+        });
 
-._pendo-launcher-search-results_ {
-    display: none;
-    overflow-y: auto;
-    position: absolute;
-    top: @enableSearchTop;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 15px 15px 0;
-
-    ._pendo-launcher-search-results-header_ {
-        margin: 0 15px;
-        ._pendo-launcher-search-results-header-title_ {
-            margin: 0 auto;
-            display: inline-block;
-            font-size: 12px;
-            font-weight: bold;
-            line-height: 32px;
-            color: @search-results--header-text-color;
-        }
-        ._pendo-launcher-clear-search_ {
-            font-size: 12px;
-            font-weight: normal;
-            float: right;
-            color: #000000 !important;
-            text-decoration: none;
-            cursor: pointer;
-            background-color: transparent;
-            outline: 0;
-            border: 0;
-            padding: 0;
-            background-image: none;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-            height: 32px;
-            -webkit-appearance: button;
-        }
-
-        ._pendo-launcher-clear-search_:hover {
-            color: @search-results--link-hover-color!important;
+        if (transform === '') {
+            dom(element).css({
+                '-ms-filter':
+                    'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)',
+                filter: 'alpha(opacity=0)',
+                opacity: 0,
+                cursor: 'default'
+            });
         }
     }
-}
 
-
-
-._pendo-launcher-search-results-list_ {
-    margin: 0 30px 15px;
-    overflow-y: auto;
-    line-height: 32px;
-}
-
-._pendo-launcher-search-results-container_ {
-    line-height: 32px;
-
-    ._pendo-launcher-search-results-section-header_ {
-        margin: 0 15px;
-        padding: 0;
-        font-weight: bold;
-        font-size: 14px;
+    function addZoomListeners() {
+        pendo.attachEvent(window, 'scroll', triggerZoomOut);
+        pendo.attachEvent(window, 'resize', triggerZoomOut);
+        // pendo.attachEvent(document, 'click', handleClick);
     }
 
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    function removeZoomListeners() {
+        // pendo.detachEvent(document, 'click', handleClick);
+        pendo.detachEvent(window, 'scroll', triggerZoomOut);
+        pendo.detachEvent(window, 'resize', triggerZoomOut);
+    }
 
-        li {
-            padding: 0;
+    function initZoom(selectedImage) {
+        console.log('initializing zoom for image: ', selectedImage);
+        injectStyles('_pendo-ext-zoom-styles_', styles);
+
+        // var targetElement = document.createElement(target.type.toLowerCase());
+        var targetElement = document.createElement('img');
+        dom(targetElement)
+            .addClass('_pendo-ext-zoom-content_')
+            .css({
+                cursor: 'progress',
+                width: selectedImage.width + 'px',
+                transition: 'all ' + transitionDuration + 'ms'
+            })
+            .on('load', function(selectedImage) {
+                triggerZoomIn(selectedImage);
+            })
+            .attr('src', selectedImage.src);
+        content = targetElement;
+
+        console.log('zoom content created: ', targetElement, content);
+
+        // this is slightly different from the actual version
+        var offset = calculateOffset(selectedImage);
+        console.log('calculated offset: ', offset);
+        addZoomListeners();
+        console.log('zoom listeners added');
+        createZoomElements(offset, content);
+    }
+
+    function createZoomElements(offset, content) {
+        console.log(
+            'creating zoom elements with offset and content: ',
+            offset,
+            content
+        );
+        container = dom('<div/>')
+            .addClass('_pendo-ext-zoom-container_')
+            .css({
+                cursor: 'progress',
+                top: offset.top + 'px',
+                left: offset.left + 'px',
+                transition: 'all ' + transitionDuration + 'ms'
+            })
+            .append(content)
+            .appendTo(dom.getBody());
+
+        overlay = dom('<div/>')
+            .addClass('_pendo-ext-zoom-overlay_')
+            .css({
+                transition: 'all ' + transitionDuration + 'ms'
+            })
+            .appendTo(dom.getBody());
+
+        console.log('zoom elements created: ', container, overlay);
+    }
+
+    function triggerZoomIn(targetEvent) {
+        console.log('zoom-in triggered for target: ', targetEvent);
+        var target = targetEvent.path
+            ? targetEvent.path[0]
+            : targetEvent.target;
+        var contentOffset = calculateOffset(target); // ExtensionAPI.Util.getOffsetPosition(content);
+        var viewportX = window.innerWidth / 2;
+        var viewportY = window.pageYOffset + window.innerHeight / 2;
+        var contentCenterX = contentOffset.left + target.width / 2;
+        var contentCenterY = contentOffset.top + target.height / 2;
+        var translateX = Math.round(viewportX - contentCenterX);
+        var translateY = Math.round(viewportY - contentCenterY);
+
+        var contentTransform = 'scale(' + calculateScaleFactor(target) + ')';
+        var containerTransform =
+            'translate(' +
+            translateX +
+            'px, ' +
+            translateY +
+            'px) translateZ(0)';
+
+        if (pendo._.isUndefined(content))
+            var content = dom('._pendo-ext-zoom-content_');
+        setTransformStyles(content, contentTransform);
+        console.log('content transform style set');
+
+        if (pendo._.isUndefined(container))
+            var container = dom('._pendo-ext-zoom-container_');
+        setTransformStyles(container, containerTransform);
+        console.log('container transform style set');
+
+        if (pendo._.isUndefined(overlay))
+            var overlay = dom('._pendo-ext-zoom-overlay_');
+        overlay.addClass('_pendo-ext-zoom-overlay-active_');
+        console.log('overlay active');
+    }
+
+    function triggerZoomOut() {
+        console.log('zoom-out triggered');
+        removeZoomListeners();
+
+        setTransformStyles(content, '');
+        setTransformStyles(container, '');
+
+        overlay.removeClass('_pendo-ext-zoom-overlay-active_').css({
+            cursor: 'default'
+        });
+
+        setTimeout(function() {
+            dispose();
+        }, transitionDuration);
+    }
+
+    function dispose() {
+        // if (!content) return;
+        // dom(content).css({
+        //     width: null
+        // });
+        // pendo._.each([content, container, overlay], function (element) {
+        //     dom(element).remove();
+        // });
+        // content = null;
+        pendo.dom('._pendo-ext-zoom-overlay_').remove();
+        pendo.dom('._pendo-ext-zoom-container_').remove();
+    }
+
+    function calculateScaleFactor(target) {
+        console.log('calculating scale factor for target: ', target);
+        var zoomScaleFactor = null;
+        var naturalWidth = target.naturalWidth;
+        var naturalHeight = target.naturalHeight;
+        var maxScaleFactor = naturalWidth / target.width;
+        var viewportHeight = window.innerHeight - margin;
+        var viewportWidth = window.innerWidth - margin;
+        var contentAspectRatio = naturalWidth / naturalHeight;
+        var viewportAspectRatio = viewportWidth / viewportHeight;
+
+        if (naturalWidth < viewportWidth && naturalHeight < viewportHeight) {
+            zoomScaleFactor = maxScaleFactor;
+        } else if (contentAspectRatio < viewportAspectRatio) {
+            zoomScaleFactor = (viewportHeight / naturalHeight) * maxScaleFactor;
+        } else {
+            zoomScaleFactor = (viewportWidth / naturalWidth) * maxScaleFactor;
         }
-    }
-}
-
-&._pendo-launcher-searching_ {
-    ._pendo-launcher-search-results_ {
-        display: block;
+        console.log('scale factor: ', zoomScaleFactor);
+        return zoomScaleFactor;
     }
 
-    ._pendo-launcher-menu_,
-    ._pendo-launcher-body_ {
-        display: none;
+    // test to make sure this works after scrolling
+    function calculateOffset(target) {
+        console.log('calculating offset for target: ', target);
+        var rect = target.getBoundingClientRect();
+        var calcTop = window.innerHeight / 2 - rect.height / 2;
+        var calcLeft = window.innerWidth / 2 - rect.width / 2;
+        return {
+            top: calcTop,
+            left: calcLeft
+        };
     }
 
-    ._pendo-launcher-search-box_ ._pendo-launcher-clear-search-icon_ {
-        display: block;
-    }
-}
-
-._pendo-section-content-search-empty_ {
-    text-align: center;
-    margin: 50px 0;
-
-    h4 {
-        color: @search-results--no-results-found-text-color;
-        font-size: 16px;
-        font-weight: 400;
-        margin: 1.30435em 0;
+    function expandImage(selectedImage) {
+        // var imageOverlay = expandedImageTemplate(selectedImage);
+        // dom("body").append(imageOverlay);
+        initZoom(selectedImage);
     }
 
-    p {
-        color: @search-results--no-results-found-subtext-color;
-        font-size: 12px;
-        line-height: 140%;
-    }
-}
-
-._pendo-launcher-search-display_ {
-    display: none;
-
-    ._pendo-launcher-search-highlight_ {
-        background-color: @search-results--search-highlight-color;
-    }
-
-    ._pendo-launcher-search-header_ h4 {
-        margin: 8px auto 15px;
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    ._pendo-launcher-search-display-return_ {
-        position: relative;
-
-        > span {
-            color: @search-results--search-display-return-color;
-            vertical-align: middle;
-            font-size: 14px;
-            &:hover {
-                text-decoration: underline;
-                cursor: pointer;
+    launcherDiv
+        .on('input', '._pendo-launcher-search-box_', function(e) {
+            dom(articleDisplay).html('');
+            if (
+                e.which === 8 ||
+                (searchInput[0].value.length > 0 && e.which !== 9)
+            ) {
+                delaySearch(e);
+            } else if (searchInput[0].value.length == 0) {
+                dom(articleDisplay).html('');
+                switchResultsContext('suggested');
+                show(topSearch);
+                retrieveTopTen();
             }
-        }
+        })
+        .on(
+            'click',
+            '._pendo-section-content-clear-search_, ._pendo-launcher-clear-search-icon_',
+            function(e) {
+                dom(articleDisplay).html('');
+                resetSearch(e);
+                dom(topSearch).removeClass(invisibleClass);
+                dom(topSearch).html(headerTemplate('suggested'));
+            }
+        )
+        .on('click', '._pendo-back-to-results_', function(e) {
+            dom(articleDisplay).html('');
+            hide(articleDisplay);
+            show(topSearch);
+            show(resultsElement);
+        })
+        // HEADS UP:  This is different from standard
+        //select an article, invoke displaying article using its ID
 
-        &::before {
-            content: '';
-            width: 8px;
-            height: 32px;
-            display: inline-block;
-            vertical-align: middle;
-            background-position: center;
-            background-size: 16px;
-            background-repeat: no-repeat;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyY2EwYzgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLWNoZXZyb24tbGVmdCI+PHBvbHlsaW5lIHBvaW50cz0iMTUgMTggOSAxMiAxNSA2Ij48L3BvbHlsaW5lPjwvc3ZnPg==');
+        //Also MF note: I botched the naming convention, and swapped the two button class names semantically, but
+        //I don't have time to untangle the namespace wires. Sorry future engineers <3
+        .on('click', '._pendo-no-special-response_, ._pendo-suggestions-view-in-hc a', function(e) {
+            // Click Event Listener to display KB articles
+
+            // we can probably optimize this since we will already have the article
+            // data from the initial search/suggestion query
+            var articleId = eventTarget(e).dataset.id;
+            var articleContentConfig = {
+                url: articleUrl + "&search=" + articleId,
+                method: 'GET'
+            };
+
+            if (!pendo._.isUndefined(articleId)) {
+                pendo
+                    .ajax(articleContentConfig)
+                    .then(function(response) {
+                        displayArticleData(response, articleId);
+                    })
+                    .fail(function(error) {
+                        console.error(error);
+                        contentLoaded(resultsElement);
+                        return errorState(error);
+                    });
+            }
+        })
+        .on(
+            'click',
+            '._pendo-section-content-article_ img.expandable',
+            function(e) {
+                var selectedImage = eventTarget(e);
+                expandImage(selectedImage);
+            }
+        );
+
+    function eventTarget(e) {
+        return (e && e.target) || e.srcElement;
+    }
+
+    var delaySearch = pendo._.debounce(resetContainerAndSendSearch, 500, false);
+
+    function resetContainerAndSendSearch(e) {
+        dom(resultsElement).html('');
+        dom(emptySearch).remove();
+        show(resultsElement);
+        if (searchInput[0].value.trim() === '') {
+            // If no value, remove elements and show suggestions
+            resetSearch(e);
+        } else {
+            // Remove suggestions and fetch articles with supplied input value
+            hide(topSearch);
+            getArticles(searchInput[0].value.trim(), e);
         }
     }
-}
 
+    // Wrapper to check prerequisites before sending any request
+    function getArticles(inputValue, e) {
+        // Remove any enter presses or invalid length values
+        if (
+            inputValue.length < 1 ||
+            //e.keyCode === 16 ||
+            // e.keyCode === 8 ||
+            //e.keyCode === 32 ||
+            e.keyCode === 9 //||
+            //e.keyCode === 13
+        ) {
+            return false;
+        } else {
+            var query = unescape(inputValue);
 
-#_pendo-section-content-helpcenter-article-frame_ {
-    border-width: 0;
-    border-style: none;
-    border-color: none;
-    border-image: none;
-    margin-top: 5px;
-}
+            // Send query to method for request
+            return getArticlesFromApi(query, e);
+        }
+    }
 
-._pendo-section-content-search-header_,
-._pendo-section-content-body-error_,
-._pendo-section-content-top-searches-header_ {
-    margin: 8px 0 8px!important;
-    position: relative;
-    display: block;
-    font-size: 18px;
-    font-weight: 400;
-    color: #000000;
-    >._pendo-section-content-clear-search_ {
-      font-size: 14px;
-      font-weight: normal;
-      float: right;
-      color: #000000;
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
-        color: @search-results--link-hover-color;
+    function getLocation(url) {
+        var match = url.match(
+            /^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/
+        );
+        return (
+            match && {
+                href: url,
+                protocol: match[1],
+                host: match[2],
+                hostname: match[3],
+                port: match[4],
+                pathname: match[5],
+                search: match[6],
+                hash: match[7]
+            }
+        );
+    }
+
+    function getSuggestionsPath(usersUrl) {
+      var path = getLocation(usersUrl).pathname;
+      var query = '""';
+      var suggestions = false;
+
+      if (path.length > 1) {
+        suggestions = true;
+        query = pendo._.each(path.split('/'), function(item) {
+          return item;
+        }).join('%20');
       }
-    }
-}
 
-._pendo-section-content-top-searches-header_,
-._pendo-section-content-search-header_ {
-    margin: 0 auto;
-}
+      // Building the search request
+      var queryUrl = searchUrl + query;
 
-._pendo-has-special-response_ {
-   background-image: url(https://pendo.reaxys.com/7X0eN-xi2TYnlcI3kTQafnNZRC0/guide-media-7fc818bf-6dac-4009-9eff-2607c94e17ba);
-   background-repeat: no-repeat;
-   background-position: top 15px left;
-   > a {
-    padding-right: 20px!important;
-    margin-left: 30px!important;
-    border-bottom: 0px!important;
-   }
-}
+      return { "suggestions":suggestions, "queryUrl":queryUrl };
 
-._kb-acc-active {
-    background-image: url(https://pendo.reaxys.com/7X0eN-xi2TYnlcI3kTQafnNZRC0/guide-media-4ca47876-e2f6-493a-947d-78e514946fdd)!important;
-}
-
-._pendo-no-special-response_ {
-    background-image: url(https://pendo.reaxys.com/7X0eN-xi2TYnlcI3kTQafnNZRC0/guide-media-17d7c75d-1a2e-42e0-a38e-274aff90835c);
-    background-repeat: no-repeat;
-    background-position: top 16px right;
-    background-size: 16px;
-   > a {
-    padding-right: 20px!important;
-    margin-right: 20px!important;
-    border-bottom: 0px!important;
-   }
-}
-
-._pendo-tt-suggestion_ {
-    padding: 18px 0 16px;
-    border-top: 2px solid #DCDCDC;
-    font-size: 16px;
-    color: #000000;
-    cursor: pointer;
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-decoration: none;
-    list-style: none;
-    scroll-margin-right: 20px;
-    /* margin-bottom: 7px; */
-    >a {
-      display: list-item;
-      text-decoration: none;
-      margin: 0;
-      padding: 0;
-      font-size: 14px;
-      color: #2e2e2e;
-      cursor: pointer;
-      white-space: normal;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      font-weight: normal;
-      line-height: 14px;
-      &:hover {
-          text-decoration: underline;
-          color: @search-results--link-hover-color;
-      }
-    }
-}
-
-div._pendo-suggestions-collapsible {
-    font-size: 14px!important;
-    color: #2e2e2e;
-    white-space: pre-wrap;
-    overflow: hidden;
-    text-decoration: none;
-    list-style: none;
-    padding-left: 30px;
-    line-height: 20px;
-    padding-top: 14px;
-}
-
-._pendo-suggestions-learn-more {
-    float: left;
-}
-
-._pendo-suggestions-learn-more, ._pendo-suggestions-view-in-hc {
-    padding-top: 10px;
-    text-align: right;
-    >a {
-        color: #007398;
-        &:hover {
-            color: #FF6c00;
-        }
-    }
-}
-
-._pendo-suggestion-vic-continue {
-    background-color: #007398;
-    padding: 10px;
-    font-size: 20px;
-    color: #ffffff;
-    border: 2px solid #007398;
-    &:hover {
-        background-color: #FFFFFF;
-        border-color: #FF6c00;
-        color: #323232;
-        >img {
-            content: url(https://pendo.reaxys.com/7X0eN-xi2TYnlcI3kTQafnNZRC0/guide-media-17d7c75d-1a2e-42e0-a38e-274aff90835c)!important;
-            height: 20px;
-        }
-    }
-}
-
-._pendo-suggestion-learn-more-button {
-    font-size: 20px;
-    padding: 10px;
-    >img {
-        width: 18px;
-        height: 18px;
-        vertical-align: bottom;
-        padding-left: 5px;
-        margin-bottom: -1px;
-    }
-}
-
-._pendo-section-content-body-top-searches_,
-._pendo-section-content-body-article_ {
-    height: calc(~'100% - 6%');
-    object-fit: contain;
-}
-
-._pendo-section-content-article_ {
-    overflow-y: auto;
-    padding: 0 15px;
-}
-
-._pendo-section-content-body-top-searches_,
-._pendo-section-content-body-results_ {
-    margin: 0px 0px 0px 20px;
-    padding-right: 20px;
-    overflow-x: auto;
-    height: auto;
-    line-height: 32px;
-}
-
-._pendo-section-content-body-results_ {
-    height: auto;
-    overflow-y: auto;
-}
-
-._pendo-launcher-search-results-list_ {
-    margin: 0 30px 15px;
-    overflow-y: auto;
-    line-height: 32px;
-}
-
-._pendo-section-content-article-chevron_ {
-  left: 0;
-  top: 50%;
-  margin-top: -5px;
-  display: inline-block;
-  width: 16px;
-  height: 9px;
-  background-image: url('data:image/svg+xml;utf,<svg width=\"256px\" height=\"448px\" viewBox=\"0 0 256 448\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><defs></defs><g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\"><g id=\"chevron-left\" fill=\"#000000\"><path d=\"M85.7,224 L85.7,224 L85.7,224 L252.9,49.9 C257.1,45.6 257,38.5 252.7,34.1 L222.8,3.5 C218.5,-0.9 211.5,-1 207.3,3.3 L3.1,215.9 C0.9,218.1 -0.1,221.1 0.1,224 C-5.32907052e-15,227 1,229.9 3.1,232.1 L207.3,444.8 C211.5,449.1 218.5,449 222.8,444.6 L252.7,414 C257,409.6 257.1,402.5 252.9,398.2 L85.7,224 L85.7,224 Z\" id=\"Shape\"></path></g></g></svg>');
-  background-repeat: no-repeat;
-  background-size: 12px 9px;
-}
-
-@supports (-moz-appearance:none) and (display:contents) {
-  ._pendo-section-content-article-chevron_ {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    margin-top: -5px;
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    background-repeat: no-repeat;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjU2cHgiIGhlaWdodD0iNDQ4cHgiIHZpZXdCb3g9IjAgMCAyNTYgNDQ4IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjwvZGVmcz48ZyBpZD0iQ2hldnJvbnMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik04NS42MjUsMjIzLjg2MzQ3IEw4NS42MjUsMjIzLjg2MzQ3IEw4NS42MjUsMjIzLjg2MzQ3IEwyNTIuODI1LDQ5Ljc2MzQ2OTggQzI1Ny4wMjUsNDUuNDYzNDY5OCAyNTYuOTI1LDM4LjM2MzQ2OTggMjUyLjYyNSwzMy45NjM0Njk4IEwyMjIuNzI1LDMuMzYzNDY5NzYgQzIxOC40MjUsLTEuMDM2NTMwMjQgMjExLjQyNSwtMS4xMzY1MzAyNCAyMDcuMjI1LDMuMTYzNDY5NzYgTDMuMDI1LDIxNS43NjM0NyBDMC44MjUsMjE3Ljk2MzQ3IC0wLjE3NSwyMjAuOTYzNDcgMC4wMjUsMjIzLjg2MzQ3IEMtMC4wNzUsMjI2Ljg2MzQ3IDAuOTI1LDIyOS43NjM0NyAzLjAyNSwyMzEuOTYzNDcgTDIwNy4yMjUsNDQ0LjY2MzQ3IEMyMTEuNDI1LDQ0OC45NjM0NyAyMTguNDI1LDQ0OC44NjM0NyAyMjIuNzI1LDQ0NC40NjM0NyBMMjUyLjYyNSw0MTMuODYzNDcgQzI1Ni45MjUsNDA5LjQ2MzQ3IDI1Ny4wMjUsNDAyLjM2MzQ3IDI1Mi44MjUsMzk4LjA2MzQ3IEw4NS42MjUsMjIzLjg2MzQ3IEw4NS42MjUsMjIzLjg2MzQ3IFoiIGlkPSJjaGV2cm9uLWxlZnQiIGZpbGw9IiMyY2EwYzgiPjwvcGF0aD48L2c+PC9zdmc+');
-    background-size: 6px 10px;
-    background-position: left;
-  }
-}
-
-._pendo-launcher-search-results-container_ {
-    line-height: 32px;
-
-    ._pendo-launcher-search-results-section-header_ {
-        margin: 0;
-        padding: 0;
-        font-weight: bold;
-        font-size: 14px;
     }
 
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-
-        li {
-            padding: 0;
-        }
-    }
-}
-
-&._pendo-launcher-searching_ {
-    ._pendo-launcher-search-results_ {
-        display: block;
+    // Convenience to quickly show elements
+    function show(element) {
+        dom(element).removeClass(invisibleClass);
     }
 
-    ._pendo-launcher-menu_,
-    ._pendo-launcher-body_ {
-        display: none;
+    // Convenience to quickly hide elements
+    function hide(element) {
+        dom(element).addClass(invisibleClass);
     }
 
-    ._pendo-launcher-search-box_ ._pendo-launcher-clear-search-icon_ {
-        display: block;
-    }
-    ._pendo-launcher-search-box_ ._pendo-launcher-clear-kb-search-icon_{
-        display: block;
-    }
-}
-
-._pendo-launcher-search-display_ {
-    display: none;
-
-    ._pendo-launcher-search-highlight_ {
-        background-color: @search-results--search-highlight-color;
+    function resetSearch(e) {
+        searchInput[0].value = '';
+        switchResultsContext('suggested');
+        show(topSearch);
+        dom(resultsElement).html('');
+        hide(articleDisplay);
+        dom(emptySearch).remove();
+        show(resultsElement);
+        retrieveTopTen();
     }
 
-    ._pendo-launcher-search-header_ h4 {
-        margin: 8px auto 15px;
-        font-weight: 700;
-        font-size: 12px;
-        color: #000000;
+    // Template to display when loading
+    function contentLoading() {
+        hide(topSearch);
+        hide(clearSearchIcon);
+        //show(loadingContentElement);
+        show(".es-progress-indicator");
+        hide(resultsElement);
+        hide(articleDisplay);
     }
 
-    ._pendo-launcher-search-display-return_ {
-        position: relative;
-
-        >span {
-            color: @search-results--search-display-return-color;
-            vertical-align: middle;
-            font-size: 14px;
-            &:hover {
-                text-decoration: underline;
-                cursor: pointer;
+    // Remove the loading content/elements
+    function contentLoaded(element) {
+        setTimeout(function() {
+            hide(".es-progress-indicator");
+            //hide(loadingContentElement);
+            show(element);
+            // show(articleDisplay);
+            if (searchInput[0].value !== '') {
+                show(clearSearchIcon);
             }
+        }, 600);
+    }
+
+    function displayArticleData(response, articleId) {
+        var selectedArticle = response.data.data.answers[0];
+
+        searchInput[0].blur();
+        hide(topSearch);
+        hide(resultsElement);
+        show(articleDisplay);
+        dom(articleDisplay).append(articleHeaderTemplate(selectedArticle));
+
+        var articleContent = [
+            '<div class="_pendo-section-content-article_" id=" ' +
+                articleId +
+                '">',
+            '<div class="_pendo-article-content-main_">',
+            '<h2>' + selectedArticle.Summary + '</h2>',
+            '<div class="presentation">' + selectedArticle.Solution + '</div>',
+            '</div>',
+            '</div>'
+        ].join('\n');
+        articleDisplay.append(articleContent);
+
+        processImages();
+        processLinks();
+    }
+
+    function checkImageProperties(image) {
+        /**
+         * Determines whether an img element has the right width properties
+         * @param {Object} image an img element
+         * @return {Boolean} true when the properties are on the image
+         */
+        var checkForImageWidth = setInterval(function() {
+            pendo.log('Checking for image properties');
+            if (image.width && image.naturalWidth) {
+                pendo.log(
+                    'image: ' + image.width + ' -- ' + image.naturalWidth
+                );
+                if (image.width < image.naturalWidth)
+                    pendo.log('Adding expandable class to image');
+                image.classList.add('expandable');
+                clearInterval(checkForImageWidth);
+            }
+        }, 350);
+    }
+
+    function processImages() {
+        /**
+         * Determines whether an img element can receive the expandable class for zoom in functionality
+         */
+        pendo.log('processing images...');
+
+        var images = dom('._pendo-section-content-article_ img');
+        var notes = dom('._pendo-section-content-article_ img[alt="Note.png"]');
+
+        pendo._.each(images, function(image) {
+            checkImageProperties(image);
+        });
+        pendo._.each(notes, function(note) {
+            note.style.width = '35px';
+        });
+
+        /*
+        pendo._.each(images, function(image) {
+            var imgSrcSuffix = image.src.substr(image.src.indexOf("sys_attachment.do"))
+            image.setAttribute("src", knowledgeBaseURL + imgSrcSuffix);
+        });*/
+    }
+
+    function processLinks() {
+        /**
+         * Determines whether an img element can receive the expandable class for zoom in functionality
+         */
+        pendo.log('processing links...');
+
+        var links = dom('._pendo-section-content-article_ a');
+
+        pendo._.each(links, function(link) {
+            var linkHref = link.href;
+            if(linkHref.indexOf('.jpg') > -1) {
+                link.href = "";
+                link.removeAttribute('target');
+            }
+            if(linkHref.indexOf('#top') > -1) {
+                link.remove();
+            }
+        });
+    }
+
+    var makeSuggestions = function(articleListObject) {
+        //apply logic to list of articles, then send results to template
+        var suggestionList = articleListObject;
+        suggestedArticlesTemplate(suggestionList);
+    };
+
+    var suggestedArticlesTemplate = function(data) {
+        console.debug('building suggested Articles template...');
+        pendo._.each(data, function(suggestion) {
+            if(suggestion.SpecialResponse){
+                dom(resultsElement).append(
+                    '<li class="_pendo-tt-suggestion_ _pendo-has-special-response_">'+
+                       '<a class="_pendo-article-link_" data-id="' +
+                           suggestion.ID +
+                        '" target="_pendo-section-content-helpcenter-article-frame_">' +
+                            suggestion.Summary +
+                        '</a>'+
+                        '<div class="_pendo-suggestions-collapsible">'+
+                            '<div>' + suggestion.SpecialResponse + '</div>' +
+                            '<div class="_pendo-suggestions-learn-more">' +
+                            '<a target="_blank" href="' + suggestion.Url + '?utm_medium=ipm"><button class="_pendo-suggestion-learn-more-button">Learn more<img src="https://pendo.reaxys.com/7X0eN-xi2TYnlcI3kTQafnNZRC0/guide-media-f884071b-4436-4b0b-9129-8045cf8ca7b9"></button></a></div>' +
+                            '<div class="_pendo-suggestions-view-in-hc">' +'<a data-id="' +
+                                suggestion.ID +
+                                '"><button ' +
+                                'data-id="' +
+                                suggestion.ID +
+                                '" class="_pendo-suggestion-vic-continue">Continue  <img ' +
+                                'data-id="' +
+                                suggestion.ID +
+                                '" src="https://pendo.reaxys.com/7X0eN-xi2TYnlcI3kTQafnNZRC0/guide-media-03a32354-5800-4cdb-9028-1dc199d73be6"></button></a></div>' +
+                        '</div>' +
+                    '</li>'
+                );
+            } else {
+                dom(resultsElement).append(
+                    '<li class="_pendo-tt-suggestion_ _pendo-no-special-response_"><a class="_pendo-article-link_" data-id="' +
+                    suggestion.ID +
+                    '" target="_pendo-section-content-helpcenter-article-frame_">' +
+                    suggestion.Summary +
+                    '</a></li>'
+                );
+            }
+        });
+    };
+
+    var searchResultsTemplate = function(data, e) {
+        switchResultsContext('search');
+        show(topSearch);
+        pendo._.each(data, function(allArticles) {
+            dom(resultsElement).append(
+                '<li class="_pendo-tt-suggestion_ _pendo-no-special-response_"><a class="_pendo-article-link_" data-id="' +
+                    allArticles.ID +
+                    '" target="_pendo-section-content-helpcenter-article-frame_">' +
+                    allArticles.Summary +
+                    '</a></li>'
+            );
+        });
+    };
+
+    // Template to display when no results are found
+    var notFoundTemplate = function(data) {
+        dom(resultsElement).html('');
+        switchResultsContext('search');
+        show(topSearch);
+        var notFound = [
+            "<div class='_pendo-section-content-search-empty_'>",
+            '<h4>No matches found for <strong>' + data + '</strong></h4>',
+            '<p>Try adding a few more letters or check the spelling of your current entry</p>',
+            '</div>'
+        ].join('\n');
+        dom(resultsElement).append(notFound);
+    };
+
+    // template to display when no suggestions are found
+    var noSuggestionsTemplate = function() {
+        dom(resultsElement).html('');
+        var notFound = [
+            "<div class='_pendo-section-content-suggestions-empty_'>",
+            '<h4>For tips, tricks, and how tos, try searching for keywords above</h4>',
+            '</div>'
+        ].join('\n');
+        dom(resultsElement).append(notFound);
+    };
+
+    var switchResultsContext = function(state = 'search') {
+        var states = {
+            suggested: suggested,
+            search: search
+        };
+
+        function suggested() {
+            dom(topSearch).html(headerTemplate('suggested'));
+            dom(resultsElement).attr('data-context', 'suggested');
         }
 
-        &::before {
-            content: '';
-            width: 8px;
-            height: 32px;
-            display: inline-block;
-            vertical-align: middle;
-            background-position: center;
-            background-size: 16px;
-            background-repeat: no-repeat;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyY2EwYzgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLWNoZXZyb24tbGVmdCI+PHBvbHlsaW5lIHBvaW50cz0iMTUgMTggOSAxMiAxNSA2Ij48L3BvbHlsaW5lPjwvc3ZnPg==');
+        function search() {
+            dom(topSearch).html(headerTemplate('search'));
+            dom(resultsElement).attr('data-context', 'search');
         }
-    }
-}
 
-/* End search results */
-
-
-/* Helpjuice - animation */
-#_pendo-zendesk-kb_ ._pendo-launcher-article-loading_ ._pendo-spinner_ {
-    top: 25%;
-  }
-
-  ._pendo-spinner_ {
-    animation: rotator 1s linear infinite;
-    height: 35px;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-  }
-
-  ._pendo-animated-circle_ {
-    stroke-dasharray: 187;
-    stroke-dashoffset: 0;
-    transform-origin: center;
-    border-radius: 4px;
-    animation: dash 1s ease-in-out infinite, colors 4s ease-in-out infinite;
-  }
-
-
-._pendo-launcher-search--is-displaying_ {
-    ._pendo-launcher-search-results-header_,
-    ._pendo-launcher-search-results-list_,
-    ._pendo-launcher-menu_ {
-        display: none;
-    }
-    ._pendo-launcher-search-display_ {
-        display: block;
-    }
-}
-
-/* if launcher search is enabled, adjust menu top */
-
-._pendo-launcher-search-results_ + ._pendo-launcher-menu_ {
-    top: @enableSearchTop;
-}
-
-
-a._pendo-article-link_._pendo-external-link_ {
-    padding-left: 25px;
-    white-space: nowrap;
-    margin-bottom: 10px;
-    text-overflow: ellipsis;
-}
-
-button._pendo-external-link_ {
-    display: block;
-    position: relative;
-    font-weight: 400;
-    float: right;
-    :focus {
-        outline: none;
-    }
-}
-
-._pendo-external-link_ svg{
-    height: 19px;
-    float: right;
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    clear: both;
-    color: #000000;
-    background: none;
-    padding-left: 4px;
-    :focus {
-        outline: none;
-    }
-}
-
-._pendo-external-link_ a:hover{
-    color: @search-results--link-hover-color;
-}
-
-._pendo-section-content-article-breadcrumbs_ {
-    line-height: 0px;
-    text-overflow: ellipsis;
-    margin: 0px;
-    > ._pendo-article-breadcrumbs-title_ {
-        color: #000000;
-        white-space: nowrap;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-    }
-    > h4 {
-        display: inline-block;
-        line-height: 32px;
-        font-weight: 700;
-        font-size: 14px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        max-width: 90%;
-        margin: 0;
-    }
-}
-
-._pendo-article-nav_ {
-    font-size: 14px;
-    line-height: 32px;
-    margin-top: 0px;
-    color: #000000;
-    ._pendo-back-to-results_ {
-        height: 32px;
-        color: #2e2e2e;
-        padding: 0;
-        border: 0;
-        cursor: pointer;
-        svg {
-            vertical-align: sub;
+        if (!pendo._.isUndefined(state)) {
+            return states[state]();
         }
-        span {
-            margin: 0px 0px 0px -4px;
+    };
+
+    var headerTemplate = function(state = 'search') {
+        var states = {
+            suggested: suggestedHeader,
+            search: searchHeader
+        };
+
+        function suggestedHeader() {
+            return [
+                '<div class="_pendo-section-content-top-searches-header_">',
+                'Top 10 FAQs',
+                '</div>'
+            ].join('\n');
         }
-    }
-    ._pendo-back-to-results_:hover {
-        color: @search-results--link-hover-color;
-    }
-}
 
-._pendo-article-content_ {
-    overflow-y: auto;
-    height: 100%;
-}
-
-._pendo-article-content-main_ {
-  background-color: #ffffff;
-  border-radius: 0px;
-  padding: 0px 5px 0px;
-  overflow-x: hidden;
-  max-width: 100%;
-  position: relative;
-  cursor: default;
-  line-height: 24px;
-  font-size: 16px;
-  text-size-adjust: 100%;
-  &:first-child {
-    margin-top: 0;
-  }
-  .expandable {
-    cursor: zoom-in;
-  }
-  a {
-    color: #007398!important;
-  }
-  a:hover {
-    color: @search-results--link-hover-color!important;
-  }
-  p {
-      font-size: unset!important;
-      line-height: unset!important;
-      background: unset!important;
-      color: #505050;
-      margin: 0 0 10px;
-    img {
-      margin: 0;
-      width: 100%;
-    }
-  }
-  h1, h2, h3 {
-    line-height: 1.2;
-    white-space: normal;
-    font-weight: 700;
-    color: #505050 !important;
-    background: unset!important;
-    span {
-        color: #505050 !important;
-    }
-  }
-  h1 {
-    font-size: 28px;
-    margin: .85763em 0;
-  }
-  h2 {
-    font-size: 1.521em;
-    margin: 0 0 .98619em;
-  }
-  h3 {
-    font-size: 1.322em;
-  }
-  h4 {
-    font-size: 1.15em;
-    color: #000000 !important;
-  }
-  h5 {
-    font-size: .87em;
-    color: #000000;
-  }
-  h6, small {
-    font-size: .756em;
-  }
-  blockquote {
-    padding: 0px 20px 0px 20px;
-    margin: 20px 0;
-    font-size: 16px;
-    border-left: 5px solid #2F3545;
-    color: #000000;
-    a {
-      font-size: 16px;
-      color: #000000;
-    }
-    a:hover {
-        color: @search-results--link-hover-color;
-    }
-    footer {
-      display: block;
-      font-size: 80%;
-      line-height: 1.42857;
-      color: rgba(0, 0, 0, 0.8);
-      &::before {
-        content: '— &nbsp;';
-      }
-    }
-    small {
-      display: block;
-      font-size: 80%;
-      line-height: 1.42857;
-      color: rgba(0, 0, 0, 0.8);
-      &::before {
-        content: '— &nbsp;';
-      }
-    }
-  }
-
-  img {
-    display: block;
-    max-width: 100%;
-    height: auto !important;
-    width: auto !important;
-  }
-
-  table {
-    /*transform: scale(0.95, 0.95) !important;*/
-  }
-
-  table, thead, tbody, tfoot, tr, th, td {
-    max-width: 100%;
-    margin-top: 10px;
-    padding: 0px;
-    border: 1px solid rgb(128, 128, 128);
-    font-size: 16px;
-    line-height: 24px;
-    width: auto !important;
-    vertical-align: middle !important;
-    color: #505050;
-    h2 {
-        font-size: 18px !important;
-    }
-    p {
-        font-size: 16px !important;
-        color: #505050;
-    }
-    img {
-        padding: 5px !important;
-    }
-  }
-  tr {
-    margin-bottom: 10px;
-  }
-  tr:nth-child(even) {
-    background-image: linear-gradient(0, rgba(0,0,0,0.07),rgba(0,0,0,0.07));
-  }
-  td {
-      padding: 5px !important;
-      color: #505050
-  }
-  dl {
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-  span {
-    font-size: 14px!important;
-    color: #505050;
-  }
-  img {
-    width: 100%;
-  }
-  ol, ul {
-    padding-inline-start: 10px;
-    color: #505050
-  }
-  ul > li {
-      list-style-type: disc;
-      margin-left: 15px !important;
-      background: unset!important;
-      color: #505050;
-  }
-  ol > li {
-      list-style-type: decimal;
-      margin-left: 15px !important;
-      background: unset!important;
-      color: #505050;
-  }
-}
-
-._pendo-zoom-overlay_ {
-    /* The Modal (background) */
-    position: fixed; /* Stay in place */
-    z-index: 999999; /* Sit on top */
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-    transition: all 300ms ease 0s;
-    cursor: zoom-out;
-
-    ._pendo-zoom-container_ {
-        transition: all 300ms ease 0s;
-        z-index: 9999999;
-
-        /* Modal Content (Image) */
-        ._pendo-zoom-content_ {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            animation-name: pendo-zoom;
-            animation-duration: 0.3s;
+        function searchHeader() {
+            return [
+                '<div class="_pendo-section-content-search-header_">',
+                'Search Results',
+                '<a href="javascript:void(0);" class="_pendo-section-content-clear-search_">Clear</a>',
+                '</div>'
+            ].join('\n');
         }
-    }
-}
 
+        if (!pendo._.isUndefined(state)) {
+            return states[state]();
+        }
+    };
 
-._pendo-section-content-suggestions-empty_ {
-    text-align: center;
-    margin: 50px 0;
-    h4 {
-        font-size: 16px;
-        font-weight: 400;
-        color: #000000;
-    }
-}
+    var articleHeaderTemplate = function(selectedArticle) {
+        return [
+            '<div class="_pendo-section-content-article-header_">',
+            '<div class="_pendo-article-nav_">',
+            '<button type="button" class="_pendo-back-to-results_">',
+            '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="8 0 18 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="" style="display: inline-block;"><polyline points="15 18 9 12 15 6"></polyline></svg>',
+            '<span>Back to Search Results</span>',
+            '</button>',
+            '</div>',
+            '<div class="_pendo-section-content-article-breadcrumbs_">',
+            '<h4 class="_pendo-article-breadcrumbs-title_">&nbsp;</h4>',
+            '<button class="_pendo-external-link_">',
+            '<a href="' +
+                selectedArticle.Url +
+                '?utm_medium=ipm" target="_blank" data-side="bottom"  data-tooltip="Open article in new tab" title="Open article in new tab" tabindex="0"> <span>Learn more</span>',
+            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 15 24"><path d="M13.149 14.39V5.544H4.224V7.34h5.862L1.98 15.393l1.347 1.32 8.053-8.106v5.782z" fill="#8E8E8E"/></svg>',
+            '</a>',
+            '</button>',
+            '</div>',
+            '</div>'
+        ].join('\n');
+    };
 
-._pendo-launcher-section-body_ {
-    height: calc(100% - 6%);
-    overflow-y: auto;
-}
+    var getArticlesFromApi = pendo._.debounce(function(query, e) {
+        contentLoading();
 
-._pendo-kb-search_ {
-    overflow-y: hidden !important;
-}
+        // Building the search request
+        var cfg = {
+            url: searchUrl + query,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        };
 
-
-
-@keyframes pendo-ext-spin {
-    0% {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-
-    to {
-        opacity: 1;
-        transform: rotate(1turn);
-    }
-}
-
-@keyframes pendo-zoom {
-    from {transform:scale(0)}
-    to {transform:scale(1)}
-  }
-
-._pendo-resource-center-sandbox-module-code-container {
-    border-style: none!important;
-}
-
-/* This is Elsevier-specific CSS that constructs the loading wheel. */
-
-.es-progress-indicator {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 1;
-  position: relative;
-  padding-top: 40px;
-}
-
-.es-progress-indicator:before {
-  bottom: 0;
-  color: #0C7DBB;
-  content: attr(aria-valuenow) '%';
-  height: 1em;
-  left: 0;
-  margin: auto;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-}
-
-/* Hide progress percentage when none available */
-.es-progress-indicator:not([aria-valuenow]):before {
-  display: none;
-}
-
-.es-progress-indicator > div {
-  border-radius: 50%;
-  border-style: solid;
-  border-width: 4px;
-  display: block;
-  height: 48px;
-  width: 48px;
-  border-color: #EBEBEB #EBEBEB #EB6500 #EB6500;
-
-  animation: es-progress-indicator-rotate 5s linear 120;
-}
-
-/* Stop animation and change color when 100% progress */
-.es-progress-indicator[aria-valuenow="100"] > div {
-  animation: none;
-  border-color: #0C7DBB;
-}
-
-
-/* Small, don't show percentage and reduce size */
-.es-progress-indicator.small:before {
-  content: none;
-}
-.es-progress-indicator.small > div {
-  border-width: 2px;
-  height: 16px;
-  width: 16px;
-}
-
-@keyframes es-progress-indicator-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.es-progress-indicator-wrapper {
-    text-align: center;
-    margin: 0 auto;
-}
+        // Request the articles with the input provided
+        pendo
+            .ajax(cfg)
+            .then(function(response) {
+                // display results (or no result message)
+                if (
+                    !pendo._.isUndefined(response.data.data.answers) &&
+                    response.data.data.answers.length
+                ) {
+                    var articleResults = response.data.data.answers;
+                    dom(resultsElement).html('');
+                    dom(emptySearch).remove();
+                    contentLoaded(resultsElement);
+                    return searchResultsTemplate(articleResults, e);
+                } else {
+                    dom(resultsElement).html('');
+                    dom(emptySearch).remove();
+                    contentLoaded(resultsElement);
+                    return notFoundTemplate(query, e);
+                }
+            })
+            .fail(function(error) {
+                console.log(error);
+                contentLoaded(resultsElement);
+                return errorState(error);
+            });
+    }, 500);
+})(pendo.dom);

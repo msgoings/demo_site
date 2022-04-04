@@ -66,10 +66,18 @@
     }
   }
     });
-    var rcHtml = `
-    <script src="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c" />
-    <link rel="stylesheet" href="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU"/>
-    `
+
+    var globalScriptTag = document.createElement('script');
+    globalScriptTag.setAttribute('src', 'https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c');
+    var globalStyle = document.createElement('link');
+    globalStyle.setAttribute('rel', 'stylesheet');
+    globalStyle.setAttribute('href', 'https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU');
+
+    pendo.updateGlobal = function() {
+      document.head.appendChild(globalScriptTag);
+      document.head.appendChild(globalStyle);
+    }
+
   })('1505b1d8-ba90-4340-6efd-507ccd393908');</script>  // Demo - Enter your own Pendo API key value here
 
 	</head>

@@ -32,53 +32,49 @@
 			var userRole = "boss";
 			var planTier = "paid";
 		</script>
-		<script>
-		  (function(apiKey){
-		    (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
-		      v=['initialize','identify','updateOptions','pageLoad'];for(w=0,x=v.length;w<x;++w)(function(m){
-		      o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
-		      y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
-		      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
+<script>
+  (function(apiKey){
+    (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
+      v=['initialize','identify','updateOptions','pageLoad'];for(w=0,x=v.length;w<x;++w)(function(m){
+      o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
+      y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
+      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
 
-		    // Call this whenever information about your visitors becomes available
-		    // Please use Strings, Numbers, or Bools for value types.
-				pendo.initialize({
-		      visitor: {
-		        id:        		"Test Visitor 1", //'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
-		        email:   	 	'markg@pendo.io',
-		        full_name:	  	'Mark G.',
-			role:         		userRole,
-			tier:			planTier,
-			tags: 		 	[{"role" : [userRole]}, {"planTier" : [planTier]}]
-						
-		        // You can add any additional visitor level key-values here,
-		        // as long as it's not one of the above reserved names.
-		      },
+    // Call this whenever information about your visitors becomes available
+    // Please use Strings, Numbers, or Bools for value types.
+    pendo.initialize({
+      visitor: {
+        id:        	"Test Visitor 1", //'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
+        email:   	 	'markg@pendo.io',
+        full_name:	'Mark G.',
+        role:       userRole,
+        tier:			  planTier,
+        tags: 		 	[{"role" : [userRole]}, {"planTier" : [planTier]}]
+        // You can add any additional visitor level key-values here,
+        // as long as it's not one of the above reserved names.
+      },
+      account: {
+        id:         'Test Account Random', //+ randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
+        tags: 	    [{"test" : ["success"]}]
+        // name:         // Optional
+        // planLevel:    // Optional
+        // planPrice:    // Optional
+        // creationDate: // Optional
 
-		      account: {
-		        id:           'Test Account Random', //+ randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
-		        tags: 	      [{"test" : ["success"]}]
-			// name:         // Optional
-		        // planLevel:    // Optional
-		        // planPrice:    // Optional
-		        // creationDate: // Optional
-
-		        // You can add any additional account level key-values here,
-		        // as long as it's not one of the above reserved names.
-		      },
-			events: {
-				ready: function () {
-					pendo.updateGlobal();
-				}
-			}
-		    });
-			var addGlobalHtml = '<script src="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c"></script><link rel="stylesheet" href="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU" />'
-			pendo.updateGlobal = function() {
-				body.append(addGlobalHtml);
-    			}  
-		  })('1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
-		</script>
-<!-- 		<script>
+        // You can add any additional account level key-values here,
+        // as long as it's not one of the above reserved names.
+      },
+  events: {
+    ready: function () {
+      pendo.updateGlobal();
+    }
+  }
+    });
+    var rcHtml = `
+    <script src="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c" />
+    <link rel="stylesheet" href="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU"/>
+    `
+  })('1505b1d8-ba90-4340-6efd-507ccd393908');</script>  // Demo - Enter your own Pendo API key value here<!-- 		<script>
 		  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.13.1";
 		  analytics.load("DcqNfIHxxLcdaMY04f7v4ACTMPGwif1D");
 		  analytics.page();

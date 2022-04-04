@@ -70,11 +70,20 @@
     }
   }
     });
-    var rcHtml = `
-    <script src="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c" />
-    <link rel="stylesheet" href="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU"/>
-    `
-  })('1505b1d8-ba90-4340-6efd-507ccd393908');</script>  // Demo - Enter your own Pendo API key value here<!-- 		<script>
+
+    var globalScriptTag = document.createElement('script');
+    globalScriptTag.setAttribute('src', 'https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c');
+    var globalStyle = document.createElement('link');
+    globalStyle.setAttribute('rel', 'stylesheet');
+    globalStyle.setAttribute('href', 'https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU');
+
+    pendo.updateGlobal = function() {
+      document.head.appendChild(globalScriptTag);
+      document.head.appendChild(globalStyle);
+    }
+
+  })('1505b1d8-ba90-4340-6efd-507ccd393908');</script>  // Demo - Enter your own Pendo API key value here
+		
 		  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.13.1";
 		  analytics.load("DcqNfIHxxLcdaMY04f7v4ACTMPGwif1D");
 		  analytics.page();

@@ -36,36 +36,47 @@
 		      y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
 		      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
 
-			var userRole = "boss";
-			var planTier = "paid";
 		    // Call this whenever information about your visitors becomes available
 		    // Please use Strings, Numbers, or Bools for value types.
-		    pendo.initialize({
+				pendo.initialize({
 		      visitor: {
-		        id:     	"Test Visitor 1", //'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
-		        email:   	'markg@pendo.io',
-		        full_name:	'Mark G.',
-			role:   	userRole,
-			tier:		planTier
-
+		        id:        		"Test Visitor 1", //'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
+		        email:   	 	'markg@pendo.io',
+		        full_name:	  	'Mark G.',
+			role:         		userRole,
+			tier:			planTier,
+			tags: 		 	[{"role" : [userRole]}, {"planTier" : [planTier]}]
+						
 		        // You can add any additional visitor level key-values here,
 		        // as long as it's not one of the above reserved names.
 		      },
 
 		      account: {
-		        id:           'Test Account ' + randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
-		        // name:         // Optional
+		        id:           'Test Account Random', //+ randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
+		        tags: 	      [{"test" : ["success"]}]
+			// name:         // Optional
 		        // planLevel:    // Optional
 		        // planPrice:    // Optional
 		        // creationDate: // Optional
 
 		        // You can add any additional account level key-values here,
 		        // as long as it's not one of the above reserved names.
-		      }
+		      },
+			events: {
+				ready: function () {
+					pendo.updateGlobal();
+				}
+			}
 		    });
-		  })('1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
-		</script>
+			var addGlobalHtml = `
+<script src="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/JGtQ1vvqCNzO-naFaSjFtyiuon4.guide.js?sha256=g8PU4yCJEuXDjkdJlD5X4AyMgWzYJ7sasIq_j5rGN0c"></script>
+<link rel="stylesheet" href="https://pendo-static-5095337838772224.storage.googleapis.com/guide-content/cFWSstYxgDOaq25Y8wTbXnprJbY/JDumd0VM3aByelHrtLo0lLB3vsA/PbDBmYPzW8tDE5Om-fU2zZql_ns.guide.css?sha256=7MdmQ93vhx0qjgRROmE7zuG5Bf4WOty_zifxSxoXJJU" />
+`
 
+    pendo.updateGlobal = function() {
+	    body.append(addGlobalHtml);
+    }  
+		  })('1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
 
 	</head>
 	<body style="background-color:#9b9ca0;">

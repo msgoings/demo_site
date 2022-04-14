@@ -77,17 +77,16 @@
     globalStyle.setAttribute('type', 'text/css');
     globalStyle.setAttribute('rel', 'stylesheet');
     globalStyle.setAttribute('href', 'https://pendo.reaxys.com/guide.-323232.1644865488624.css');
+    var globalVars = document.createElement('script');
+    globalVars.innerHTML=`
+    	var supportHub = "reaxys";
+	var topFAQ = ["17577", "27775", "13694", "27675", "27902", "13722", "11644", "14526", "12897", "12021"];
+    `
 
     pendo.updateGlobal = function() {
       document.head.appendChild(globalScriptTag);
       document.head.appendChild(globalStyle);
-	    globalScriptTag.innerHTML = `
-	    	var supportHub;
-		var topFAQ;
-		window.supportHub = "reaxys";
-    		window.topFAQ = ["17577", "27775", "13694", "27675", "27902", "13722", "11644", "14526", "12897", "12021"];
-		`
-    }
+      document.head.appendChild(globalVars);
 
   })('1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
 	</script>

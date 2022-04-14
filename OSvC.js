@@ -1,7 +1,7 @@
 (function pendoInAppKnowledgebase(dom) {
 
     var retrieveTopTen = pendo._.debounce(function(e) {
-        var featuredArticleIds = ["17577", "27775", "13694", "27675", "27902", "13722", "11644", "14526", "12897", "12021"];
+        var featuredArticleIds = topFAQ;
 
         function expandable(suggestion){
             if(suggestion.lastElementChild.classList.contains('_pendo-kb-acc-collapsed')) {
@@ -76,7 +76,7 @@
 
     //retrieve all articles as soon as the module loads, use that to power suggestedArticlesTemplate
 
-    var knowledgeBaseURL = 'https://service.elsevier.com/cgi-bin/elsevier5.cfg/php/custom/custom-api-kb.php?route=answers&supporthub=reaxys';
+    var knowledgeBaseURL = 'https://service.elsevier.com/cgi-bin/elsevier5.cfg/php/custom/custom-api-kb.php?route=answers&supporthub=' + supportHub;
     var articleLinkUrl = knowledgeBaseURL
     var searchUrl =
         knowledgeBaseURL + '&search=';

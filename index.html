@@ -65,14 +65,14 @@
         // as long as it's not one of the above reserved names.
       },
   events: {
-    ready: setTimeout(function () {
+    ready: function () {
       pendo.updateGlobal();
-    },200)
+    }
   }
     });
 
     var globalScriptTag = document.createElement('script');
-    globalScriptTag.setAttribute('src', 'https://pendo-static-5582159194488832.storage.googleapis.com/global-guide.js/TDqv4WmYFrYV34dvA2cfD9YOQ_c');
+    globalScriptTag.setAttribute('src', 'https://pendo-static-5582159194488832.storage.googleapis.com/global-guide.js/vOIxD-cJNrRDvMmFkj78pjOBHmQ');
     var globalVars = document.createElement('script');
     globalVars.innerHTML=`
     	var supportHub = "reaxys";
@@ -81,7 +81,6 @@
 
     pendo.updateGlobal = function() {
       document.head.appendChild(globalScriptTag);
-      document.head.appendChild(globalStyle);
       document.head.appendChild(globalVars);
     }
 

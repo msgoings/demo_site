@@ -252,17 +252,39 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-			<link rel="stylesheet" href="https://pendomattkerb.helpjuice.com/swifty.css">
-		  <script src="https://pendomattkerb.helpjuice.com/swifty.js"></script>
-		  <script>
-		    window.helpjuice_account_url = 'https://pendomattkerb.helpjuice.com';
-		    window.helpjuice_contact_us_url = 'https://pendomattkerb.helpjuice.com/contact-us';
-		    window.helpjuiceSwiftyConfig = {
-		      widgetPosition: 'bottomLeft',
-		      themeColor: '#126CFF',
-		      linkColor: '#126CFF'
-		    }
-		    window.helpjuiceSwiftyUrlMap = {}
+			<!--<link rel="stylesheet" href="https://pendomattkerb.helpjuice.com/swifty.css">
+		  <script src="https://pendomattkerb.helpjuice.com/swifty.js"></script>-->
+		<!-- Helpjuice Will Go Here -->
+<script>
+  helpjuice_account_url = "https://pendomattkerb.helpjuice.com";
+
+  //"Contact us" button HREF
+  helpjuice_contact_us_url =  "http://pendomattkerb.helpjuice.com/contact-us";
+    
+		//On Helpjuice Initialization. Feel free to edit
+  //For Custom activity
+  onHelpjuiceInit = function(){ }
+
+  // You can also customize the look & feel of Swifty 
+  // using our Config paramter, take a look: 
+  // widgetPosition accepts: bottomLeft, topLeft, bottomRight, topRight
+  // widgetPosition accepts: bottomLeft, topLeft, bottomRight, topRight
+
+
+  //helpjuiceSwiftyConfig = {
+  //  widgetPosition: "bottomLeft",
+  //  themeColor: '',
+  //  linkColor: ''
+  //}
+
+
+  // Please Use this function if you'd like for JS
+  // to be fired off instead of a HREF Url.
+
+  //onHelpjuiceContactUs = function() { }
+
+</script>
+<script async src='https://s3.amazonaws.com/helpjuice-static/helpjuice_production/swifty/helpjuice_inapp.min.js'></script>
 		  </script>
 	</body>
 </html>

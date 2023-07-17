@@ -105,9 +105,9 @@ var salesforceFunc =
                         console.log('salesforceMain.initESW')
                         console.log(salesforceConfig)
 
-                        //let targetEl = document.getElementById("_pendo-sfdc-chat_");
-                        //embedded_svc.settings.targetElement = targetEl;
-                        embedded_svc.settings.displayHelpButton = false;
+                        let targetEl = document.body;
+                        embedded_svc.settings.targetElement = targetEl;
+                        embedded_svc.settings.displayHelpButton = true;
                         embedded_svc.settings.language = 'en';
                         embedded_svc.settings.defaultMinimizedText = 'Help';
                         embedded_svc.settings.enabledFeatures = ['LiveAgent'];

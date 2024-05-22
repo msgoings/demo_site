@@ -85,7 +85,7 @@
                                     substituteMetadata(placeholder);
                                 });
                             }
-                            const substitutionRegex = '\\{(?:\\s?)([^.\\s]?visitor|account|parentAccount)\\.(?:\\s?)([^.\\s]?salesforce|custom|segmentio|hubspot)\\.([^|\\s/]*)(?:\\s?\\|\\s?([^}]+|[\\/s]+))?(?:\\s?\\/\\s?){1}\\}';
+                            const substitutionRegex = '\\{(?:\\s?)([^.\\s]?salesforce|custom|segmentio|hubspot)\\.(?:\\s?)([^.\\s]?visitor|account|parentAccount)\\.([^|\\s/]*)(?:\\s?\\|\\s?([^}]+|[\\/s]+))?(?:\\s?\\/\\s?){1}\\}';
                             function substituteMetadata (placeholder) {
                                 let match;
                                 const subRegex = new RegExp(substitutionRegex);
@@ -93,8 +93,8 @@
                                     let matched = subRegex.exec(match);
                                     if (window.pendo._.isUndefined(matched[1]) || window.pendo._.isUndefined(matched[2]) || window.pendo._.isUndefined(matched[3])) return;
                                     let { data, target } = placeholder;
-                                    let type = matched[1];
-                                    let group = matched[2];
+                                    let type = matched[2];
+                                    let group = matched[1];
                                     let property = matched[3];
                                     let defaultValue = matched[4];
 

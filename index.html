@@ -114,23 +114,22 @@
                                     };
                                     pendo.ajax(cfg).then(function (response) {
                                         let mdValue = response.body;
-                                        pendo.log(mdValue);
-                                    });
-
-                                    if (target === 'href') {
+                                        console.log(mdValue);
+					if (target === 'href') {
                                         data[target] = decodeURI(data[target])
                                             .replace(
                                                 matched[0],
                                                 window.encodeURI(mdValue)
                                             );
-                                    } else {
-                                        data[target] = data[target]
-                                            .replace(
-                                                matched[0],
-                                                mdValue
-                                            );
-                                    }
-                                    window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
+                                    	} else {
+                                        	data[target] = data[target]
+                                            	.replace(
+                                                	matched[0],
+                                                	mdValue
+                                            	);
+                                    	}
+                                    	window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
+                                    });
                                 }
                             }
 

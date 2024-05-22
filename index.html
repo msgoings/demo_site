@@ -76,6 +76,7 @@
                 guides: {
                     globalScripts: [{
                         function (step, guide) {
+				debugger;
                             const placeholderData = findSubstitutableElements();
                             if (step.domJson) {
                                 findSubstitutableUrlsInJson(step.domJson, placeholderData);

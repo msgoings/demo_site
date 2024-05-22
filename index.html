@@ -105,7 +105,7 @@
                                         method: "POST",
                                         headers: { "Content-Type": "application/json" },
                                         data: JSON.stringify({
-                                            visAcctId: pendo._.get(window.pendo.getSerializedMetadata(), `${type}.id`),
+                                            visAcctId: encodeURI(pendo._.get(window.pendo.getSerializedMetadata(), `${type}.id`)),
 					    type: type,
                                             group: group,
                                             property: property,

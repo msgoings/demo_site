@@ -76,7 +76,8 @@
                 guides: {
                     globalScripts: [{
                         script: function (step, guide) {
-                            const placeholderData = findSubstitutableElements();
+                            const substitutionRegex = '\\{(?:\\s?)([^.\\s]?salesforce|custom|segmentio|hubspot)\\.(?:\\s?)([^.\\s]?visitor|account|parentAccount)\\.([^|\\s/]*)(?:\\s?\\|\\s?([^}]+|[\\/s]+))?(?:\\s?\\/\\s?){1}\\}';
+			    const placeholderData = findSubstitutableElements();
                             if (step.domJson) {
                                 findSubstitutableUrlsInJson(step.domJson, placeholderData);
                             }
@@ -85,7 +86,6 @@
                                     substituteMetadata(placeholder);
                                 });
                             }
-                            const substitutionRegex = '\\{(?:\\s?)([^.\\s]?salesforce|custom|segmentio|hubspot)\\.(?:\\s?)([^.\\s]?visitor|account|parentAccount)\\.([^|\\s/]*)(?:\\s?\\|\\s?([^}]+|[\\/s]+))?(?:\\s?\\/\\s?){1}\\}';
                             function substituteMetadata (placeholder) {
                                 let match;
                                 const subRegex = new RegExp(substitutionRegex);

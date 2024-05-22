@@ -15,246 +15,400 @@
 <!-- Demo - Find and replace all instances of 'My' with your own name if you want -->
 
 <html>
-	<head>
-		<title>My Pendo Demo Site</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
+<head>
+    <title>My Pendo Demo Site</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
 
 
-		<script>
-			var randomNumber = Math.floor(Math.random() * 100 ) + 1;
-			var randomNumber1 = Math.floor(Math.random() * 9 ) + 1;
-			var userRole = "boss";
-			var planTier = "paid";
-		</script>
-<script>
-  (function(apiKey){
-    (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
-      v=['initialize','identify','updateOptions','pageLoad'];for(w=0,x=v.length;w<x;++w)(function(m){
-      o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
-      y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
-      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
+    <script>
+        var randomNumber = Math.floor(Math.random() * 100) + 1;
+        var randomNumber1 = Math.floor(Math.random() * 9) + 1;
+        var userRole = "boss";
+        var planTier = "paid";
+    </script>
+    <script>
+        (function (apiKey) {
+            (function (p, e, n, d, o) {
+                var v, w, x, y, z; o = p[d] = p[d] || {}; o._q = [];
+                v = ['initialize', 'identify', 'updateOptions', 'pageLoad']; for (w = 0, x = v.length; w < x; ++w)(function (m) {
+                    o[m] = o[m] || function () { o._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0))); };
+                })(v[w]);
+                y = e.createElement(n); y.async = !0; y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+                z = e.getElementsByTagName(n)[0]; z.parentNode.insertBefore(y, z);
+            })(window, document, 'script', 'pendo');
 
-    // Call this whenever information about your visitors becomes available
-    // Please use Strings, Numbers, or Bools for value types.
-    pendo.initialize({
-      visitor: {
-        id:        	"Test Visitor 1", //'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
-        email:   	'markg@pendo.io',
-        full_name:	'Mark G.',
-        role:       	userRole,
-        tier:		planTier,
-        tags: 		[{"role" : [userRole]}, {"planTier" : [planTier]}]
-        // You can add any additional visitor level key-values here,
-        // as long as it's not one of the above reserved names.
-      },
-      account: {
-        id:         	"New Test Account 1", //+ randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
-        tags: 	    	[{"test" : ["success"]}]
-        // name:         // Optional
-        // planLevel:    // Optional
-        // planPrice:    // Optional
-        // creationDate: // Optional
+            // Call this whenever information about your visitors becomes available
+            // Please use Strings, Numbers, or Bools for value types.
+            pendo.initialize({
+                visitor: {
+                    id: "Test Visitor 1", //'Test Visitor ' + randomNumber + '.' + randomNumber1,  // Demo - For fresh demo site deployments set to 'Test Visitor 1' if not already set at that value
+                    email: 'markg@pendo.io',
+                    full_name: 'Mark G.',
+                    role: userRole,
+                    tier: planTier,
+                    tags: [{ "role": [userRole] }, { "planTier": [planTier] }]
+                    // You can add any additional visitor level key-values here,
+                    // as long as it's not one of the above reserved names.
+                },
+                account: {
+                    id: "New Test Account 1", //+ randomNumber // Demo - For fresh demo site deployments set to 'Test Account 1' if not already set at that value
+                    tags: [{ "test": ["success"] }]
+                    // name:         // Optional
+                    // planLevel:    // Optional
+                    // planPrice:    // Optional
+                    // creationDate: // Optional
 
-        // You can add any additional account level key-values here,
-        // as long as it's not one of the above reserved names.
-      },
-      events: {
-         /*ready: function () {
-         pendo.updateGlobal();
-         }*/
-      }
-    });
+                    // You can add any additional account level key-values here,
+                    // as long as it's not one of the above reserved names.
+                },
+                events: {
+                    /*ready: function () {
+                    pendo.updateGlobal();
+                    }*/
+                },
+                guides: {
+                    globalScripts: [{
+                        function (step, guide) {
+                            const placeholderData = findSubstitutableElements();
+                            if (step.domJson) {
+                                findSubstitutableUrlsInJson(step.domJson, placeholderData);
+                            }
+                            if (window.pendo._.size(placeholderData)) {
+                                window.pendo._.each(placeholderData, function (placeholder) {
+                                    substituteMetadata(placeholder);
+                                });
+                            }
+                            const substitutionRegex = '\\{(?:\\s?)([^.\\s]?visitor|account|parentAccount)\\.(?:\\s?)([^.\\s]?salesforce|custom|segmentio|hubspot)\\.([^|\\s/]*)(?:\\s?\\|\\s?([^}]+|[\\/s]+))?(?:\\s?\\/\\s?){1}\\}';
+                            function substituteMetadata (placeholder) {
+                                let match;
+                                const subRegex = new RegExp(substitutionRegex);
+                                while ((match = decodeURI(placeholder.data[placeholder.target]).match(subRegex) || placeholder.data[placeholder.target].match(subRegex))) {
+                                    let matched = subRegex.exec(match);
+                                    if (window.pendo._.isUndefined(matched[1]) || window.pendo._.isUndefined(matched[2]) || window.pendo._.isUndefined(matched[3])) return;
+                                    let { data, target } = placeholder;
+                                    let type = matched[1];
+                                    let group = matched[2];
+                                    let property = matched[3];
+                                    let defaultValue = matched[4];
 
-/*    var globalScriptTag = document.createElement('script');
-    globalScriptTag.setAttribute('src', 'https://pendo-static-5582159194488832.storage.googleapis.com/global-guide.js/acpF6NIJVVBIop86CpRco6VaccI');
-    var globalVars = document.createElement('script');
-    globalVars.innerHTML=`
-    	var supportHub = "reaxys";
-	var topFAQ = ["17577", "27775", "13694", "27675", "27902", "13722", "11644", "14526", "12897", "12021"];
-    `
+                                    if (window.pendo._.isUndefined(type) || window.pendo._.isUndefined(group) || window.pendo._.isUndefined(property)) { return; }
 
-    pendo.updateGlobal = function() {
-      document.head.appendChild(globalScriptTag);
-      document.head.appendChild(globalVars);
-    }
-*/
-  })(//'42852da2-78cb-45fc-5556-d1eeaf71a8fb');
-'1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
-	</script>
-	</head>
-	<body>
-		<!-- Wrapper -->
-			<div id="wrapper">
+                                    const cfg = {
+                                        url: "https://920d0429-85c3-4dc1-b95d-cbddfb4d12b1.trayapp.io",
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        data: JSON.stringify({
+                                            visAcctId: pendo._.get(window.pendo.getSerializedMetadata(), `${type}.id`),
+                                            group: group,
+                                            property: property,
+                                            default: defaultValue
+                                        })
+                                    };
+                                    pendo.ajax(cfg).then(function (response) {
+                                        let mdValue = response.data;
+                                        pendo.log(mdValue);
+                                    });
 
-				<!-- Header -->
-					<header id="header" class="alt">
-						<!-- <span class="logo"><img src="images/logo.png" alt="" /></span> -->
-						<h1>Mark's Pendo Demo Site</h1>
+                                    if (target === 'href') {
+                                        data[target] = decodeURI(data[target])
+                                            .replace(
+                                                matched[0],
+                                                window.encodeURI(mdValue)
+                                            );
+                                    } else {
+                                        data[target] = data[target]
+                                            .replace(
+                                                matched[0],
+                                                mdValue
+                                            );
+                                    }
+                                    window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
+                                }
+                            }
 
-					</header>
+                            function findSubstitutableUrlsInJson (originalData, placeholderData = []) {
+                                const subRegex = new RegExp(substitutionRegex);
+                                if ((originalData.name === 'url' || originalData.name === 'href') && originalData.value) {
+                                    if (subRegex.test(originalData.value)) {
+                                        placeholderData.push({
+                                            'data': originalData,
+                                            'target': 'value'
+                                        });
+                                    }
+                                }
+                                if (originalData.properties && originalData.id === 'href_link_block') {
+                                    window.pendo._.each(originalData.properties, (prop) => {
+                                        findSubstitutableUrlsInJson(prop, placeholderData);
+                                    });
+                                }
+                                if (originalData.views) {
+                                    window.pendo._.each(originalData.views, (view) => {
+                                        findSubstitutableUrlsInJson(view, placeholderData);
+                                    });
+                                }
+                                if (originalData.parameters) {
+                                    window.pendo._.each(originalData.parameters, (param) => {
+                                        findSubstitutableUrlsInJson(param, placeholderData);
+                                    });
+                                }
+                                if (originalData.actions) {
+                                    window.pendo._.each(originalData.actions, (action) => {
+                                        findSubstitutableUrlsInJson(action, placeholderData);
+                                    });
+                                }
+                                if (originalData.children) {
+                                    window.pendo._.each(originalData.children, (child) => {
+                                        findSubstitutableUrlsInJson(child, placeholderData);
+                                    });
+                                }
+                                return placeholderData;
+                            }
 
-				<!-- Nav -->
-					<nav id="nav">
+                            function findSubstitutableElements () {
+                                let elements = window.pendo.dom('#pendo-guide-container *:not(.pendo-inline-ui)');
+                                return window.pendo._.chain(elements)
+                                    .filter(function (placeholder) {
+                                        const subRegex = new RegExp(substitutionRegex);
+                                        if (placeholder.localName === 'a') {
+                                            return subRegex.test(decodeURI(placeholder.href)) || subRegex.test(placeholder.textContent);
+                                        }
+                                        if (placeholder.localName === 'div') return;
+                                        if (placeholder.localName === 'button' ||
+                                            placeholder.localName === 'label') {
+                                            return subRegex.test(placeholder.textContent);
+                                        }
+                                        if (placeholder.children.length > 0) return;
+                                        if (
+                                            window.pendo.dom(placeholder).hasClass('_pendo-simple-text') ||
+                                            window.pendo.dom(placeholder).hasClass('_pendo-text-plain') ||
+                                            window.pendo.dom(placeholder).hasClass('_pendo-text-list-item') ||
+                                            window.pendo.dom(placeholder).hasClass('_pendo-text-link')
+                                        ) {
+                                            return subRegex.test(placeholder.textContent);
+                                        }
+                                        return subRegex.test(placeholder.textContent) || subRegex.test(decodeURI(placeholder.href));
+                                    })
+                                    .map(function (placeholder) {
+                                        if (placeholder.localName === 'a' && window.pendo.dom(placeholder).hasClass('_pendo-text-link')) {
+                                            return [{
+                                                'data': placeholder,
+                                                'target': 'href'
+                                            }, {
+                                                'data': placeholder,
+                                                'target': 'textContent'
+                                            }];
+                                        } else if (placeholder.localName === 'a') {
+                                            return {
+                                                'data': placeholder,
+                                                'target': 'href'
+                                            };
+                                        }
+                                        if (placeholder.localName === 'button') {
+                                            return {
+                                                'data': placeholder,
+                                                'target': 'textContent'
+                                            };
+                                        }
+                                        if (
+                                            window.pendo.dom(placeholder).hasClass('_pendo-simple-text') ||
+                                            window.pendo.dom(placeholder).hasClass('_pendo-text-plain') ||
+                                            window.pendo.dom(placeholder).hasClass('_pendo-text-list-item') ||
+                                            window.pendo.dom(placeholder).hasClass('_pendo-text-link')
+                                        ) {
+                                            return {
+                                                'data': placeholder,
+                                                'target': 'textContent'
+                                            };
+                                        }
+                                    })
+                                    .flatten()
+                                    .value();
+                            }
+                        }
+                    }]
+                }
+            });
+        })(//'42852da2-78cb-45fc-5556-d1eeaf71a8fb');
+            '1505b1d8-ba90-4340-6efd-507ccd393908');  // Demo - Enter your own Pendo API key value here
+    </script>
+</head>
 
-						<ul>
-							<li><a href="#intro" class="active">Welcome</a></li>
-							<li><a href="#first">Integrations</a></li>
-							<li><a href="#second">Solutions</a></li>
-							<li><a id="getStarted" href="#cta">New Feature</a></li>
-						</ul>
-					</nav>
+<body>
+    <!-- Wrapper -->
+    <div id="wrapper">
 
-				<!-- Main -->
-					<div id="main">
+        <!-- Header -->
+        <header id="header" class="alt">
+            <!-- <span class="logo"><img src="images/logo.png" alt="" /></span> -->
+            <h1>Mark's Pendo Demo Site</h1>
 
-						<!-- Introduction -->
-							<section id="intro" class="main">
-								<div class="spotlight">
-									<div class="content">
-										<header class="major">
-											<h2>Welcome</h2>
-										</header>
-										<p>Welcome to this fine Pendo demo site.  Click around and see what the clicks represent on app.pendo.io.</p>
+        </header>
+
+        <!-- Nav -->
+        <nav id="nav">
+
+            <ul>
+                <li><a href="#intro" class="active">Welcome</a></li>
+                <li><a href="#first">Integrations</a></li>
+                <li><a href="#second">Solutions</a></li>
+                <li><a id="getStarted" href="#cta">New Feature</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Introduction -->
+            <section id="intro" class="main">
+                <div class="spotlight">
+                    <div class="content">
+                        <header class="major">
+                            <h2>Welcome</h2>
+                        </header>
+                        <p>Welcome to this fine Pendo demo site. Click around and see what the clicks represent on
+                            app.pendo.io.</p>
 
 
-										<ul class="actions">
-											<li><a href="welcome.html" class="button">Let's Go!</a></li>
-										</ul>
-									</div>
-									<span class="image"><img src="images/pic01.jpg" alt="" /> </span>
-								</div>
-							</section>
+                        <ul class="actions">
+                            <li><a href="welcome.html" class="button">Let's Go!</a></li>
+                        </ul>
+                    </div>
+                    <span class="image"><img src="images/pic01.jpg" alt="" /> </span>
+                </div>
+            </section>
 
-						<!-- First Section -->
-							<section id="first" class="main special">
-								<header class="major">
-									<h2>Integrations</h2>
-								</header>
-								<ul class="features">
-									<li>
-										<span class="icon major style1 fa-code"></span>
-										<h3>Salesforce</h3>
-										<p>Details about our Salesforce integration.</p>
-									</li>
-									<li>
-										<span class="icon major style3 fa-copy"></span>
-										<h3>Slack</h3>
-										<p>Details about our Slack integration.</p>
-									</li>
-									<li>
-										<span class="icon major style5 fa-diamond"></span>
-										<h3>Zendesk</h3>
-										<p>Details about our Zendesk integration.</p>
-									</li>
-								</ul>
-								<footer class="major">
-									<ul class="actions">
-										<li><a href="integrations.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
-							</section>
+            <!-- First Section -->
+            <section id="first" class="main special">
+                <header class="major">
+                    <h2>Integrations</h2>
+                </header>
+                <ul class="features">
+                    <li>
+                        <span class="icon major style1 fa-code"></span>
+                        <h3>Salesforce</h3>
+                        <p>Details about our Salesforce integration.</p>
+                    </li>
+                    <li>
+                        <span class="icon major style3 fa-copy"></span>
+                        <h3>Slack</h3>
+                        <p>Details about our Slack integration.</p>
+                    </li>
+                    <li>
+                        <span class="icon major style5 fa-diamond"></span>
+                        <h3>Zendesk</h3>
+                        <p>Details about our Zendesk integration.</p>
+                    </li>
+                </ul>
+                <footer class="major">
+                    <ul class="actions">
+                        <li><a href="integrations.html" class="button">Learn More</a></li>
+                    </ul>
+                </footer>
+            </section>
 
-						<!-- Second Section -->
-							<section id="second" class="main special">
-								<header class="major">
-									<h2>Solutions</h2>
-									<p>These are our solutions.</p>
-								</header>
-								<ul class="statistics">
-									<li class="style1">
-										<span class="icon fa-code-fork"></span>
-										<strong>5,120</strong> Thing 1
-									</li>
-									<li class="style2">
-										<span class="icon fa-folder-open-o"></span>
-										<strong>8,192</strong> Thing 2
-									</li>
-									<li class="style3">
-										<span class="icon fa-signal"></span>
-										<strong>2,048</strong> Thing 3
-									</li>
-									<li class="style4">
-										<span class="icon fa-laptop"></span>
-										<strong>4,096</strong> Thing 4
-									</li>
-									<li class="style5">
-										<span class="icon fa-diamond"></span>
-										<strong>1,024</strong> Thing 5
-									</li>
-								</ul>
-								<p class="content">This is some marketing language with more details about our solutions.</p>
-								<footer class="major">
-									<ul class="actions">
-										<li><a href="solutions.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
-							</section>
+            <!-- Second Section -->
+            <section id="second" class="main special">
+                <header class="major">
+                    <h2>Solutions</h2>
+                    <p>These are our solutions.</p>
+                </header>
+                <ul class="statistics">
+                    <li class="style1">
+                        <span class="icon fa-code-fork"></span>
+                        <strong>5,120</strong> Thing 1
+                    </li>
+                    <li class="style2">
+                        <span class="icon fa-folder-open-o"></span>
+                        <strong>8,192</strong> Thing 2
+                    </li>
+                    <li class="style3">
+                        <span class="icon fa-signal"></span>
+                        <strong>2,048</strong> Thing 3
+                    </li>
+                    <li class="style4">
+                        <span class="icon fa-laptop"></span>
+                        <strong>4,096</strong> Thing 4
+                    </li>
+                    <li class="style5">
+                        <span class="icon fa-diamond"></span>
+                        <strong>1,024</strong> Thing 5
+                    </li>
+                </ul>
+                <p class="content">This is some marketing language with more details about our solutions.</p>
+                <footer class="major">
+                    <ul class="actions">
+                        <li><a href="solutions.html" class="button">Learn More</a></li>
+                    </ul>
+                </footer>
+            </section>
 
-						<!-- Get Started -->
-							<section id="cta" class="main special">
-								<header class="major">
-									<h2>Solutions and New Features</h2>
-									<p>This is intended to entice you to learn more about our solutions or get started with a new feature request.</p>
-								</header>
-								<footer class="major">
-									<ul class="actions">
-										<li><a href="solutions.html" class="button">Learn More</a></li>
-										<li><a href="new_feature.html" class="button special">Get Started</a></li>
-									</ul>
-								</footer>
-							</section>
+            <!-- Get Started -->
+            <section id="cta" class="main special">
+                <header class="major">
+                    <h2>Solutions and New Features</h2>
+                    <p>This is intended to entice you to learn more about our solutions or get started with a new
+                        feature request.</p>
+                </header>
+                <footer class="major">
+                    <ul class="actions">
+                        <li><a href="solutions.html" class="button">Learn More</a></li>
+                        <li><a href="new_feature.html" class="button special">Get Started</a></li>
+                    </ul>
+                </footer>
+            </section>
 
-					</div>
+        </div>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section>
-							<h2>About us</h2>
-							<p>No site would be complete without an About us section with relevant info.</p>
-							<ul class="actions">
-								<li><a href="welcome.html" class="button">Learn More</a></li>
-							</ul>
-						</section>
-						<section>
-							<h2>Acme Product Management Company</h2>
-							<dl class="alt">
-								<dt>Address</dt>
-								<dd>1234 Somewhere Road &bull; Nashville, TN 00000 &bull; USA</dd>
-								<dt>Phone</dt>
-								<dd>(000) 000-0000 x 0000</dd>
-								<dt>Email</dt>
-								<dd><a href="#">information@untitled.tld</a></dd>
-							</dl>
-							<ul class="icons">
-								<li><a href="#" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
-								<li><a href="#" class="icon fa-facebook alt"><span class="label">Facebook</span></a></li>
-								<li><a href="#" class="icon fa-instagram alt"><span class="label">Instagram</span></a></li>
-								<li><a href="#" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
-								<li><a href="#" class="icon fa-dribbble alt"><span class="label">Dribbble</span></a></li>
-							</ul>
-						</section>
-					</footer>
+        <!-- Footer -->
+        <footer id="footer">
+            <section>
+                <h2>About us</h2>
+                <p>No site would be complete without an About us section with relevant info.</p>
+                <ul class="actions">
+                    <li><a href="welcome.html" class="button">Learn More</a></li>
+                </ul>
+            </section>
+            <section>
+                <h2>Acme Product Management Company</h2>
+                <dl class="alt">
+                    <dt>Address</dt>
+                    <dd>1234 Somewhere Road &bull; Nashville, TN 00000 &bull; USA</dd>
+                    <dt>Phone</dt>
+                    <dd>(000) 000-0000 x 0000</dd>
+                    <dt>Email</dt>
+                    <dd><a href="#">information@untitled.tld</a></dd>
+                </dl>
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-facebook alt"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon fa-instagram alt"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
+                    <li><a href="#" class="icon fa-dribbble alt"><span class="label">Dribbble</span></a></li>
+                </ul>
+            </section>
+        </footer>
 
-			</div>
+    </div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets/js/main.js"></script>
-			<!--<link rel="stylesheet" href="https://pendomattkerb.helpjuice.com/swifty.css">
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="assets/js/main.js"></script>
+    <!--<link rel="stylesheet" href="https://pendomattkerb.helpjuice.com/swifty.css">
 		  <script src="https://pendomattkerb.helpjuice.com/swifty.js"></script>-->
-		<!-- Helpjuice Will Go Here -->
-<!--<script>
+    <!-- Helpjuice Will Go Here -->
+    <!--<script>
   helpjuice_account_url = "https://pendomattkerb.helpjuice.com";
 
   //"Contact us" button HREF
@@ -284,6 +438,7 @@
 
 </script>
 <script async src='https://s3.amazonaws.com/helpjuice-static/helpjuice_production/swifty/helpjuice_inapp.min.js'></script>-->
-		  </script>
-	</body>
+    </script>
+</body>
+
 </html>

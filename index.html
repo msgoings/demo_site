@@ -77,7 +77,7 @@
                     globalScripts: [{
                         script: function (step, guide) {
                             const substitutionRegex = '\\{(?:\\s?)([^.\\s]?salesforce|custom|segmentio|hubspot)\\.(?:\\s?)([^.\\s]?visitor|account|parentAccount)\\.([^|\\s/]*)(?:\\s?\\|\\s?([^}]+|[\\/s]+))?(?:\\s?\\/\\s?){1}\\}';
-			                const placeholderData = findSubstitutableElements();
+                            const placeholderData = findSubstitutableElements();
                             if (step.domJson) {
                                 findSubstitutableUrlsInJson(step.domJson, placeholderData);
                             }
@@ -86,7 +86,7 @@
                                     substituteMetadata(placeholder);
                                 });
                             }
-                            
+
                             function substituteMetadata (placeholder) {
                                 let match;
                                 let mdValue;
@@ -107,8 +107,8 @@
                                         method: "POST",
                                         headers: { "Content-Type": "application/json" },
                                         data: JSON.stringify({
-                                            visAcctId: encodeURI(pendo._.get(window.pendo.getSerializedMetadata(), `${type}.id`)),
-					                        type: type,
+                                            visAcctId: pendo._.get(window.pendo.getSerializedMetadata(), `${type}.id`),
+                                            type: type,
                                             group: group,
                                             property: property,
                                             default: defaultValue
@@ -118,23 +118,26 @@
                                         mdValue = response.data;
                                         console.log(mdValue);
                                     });
-                                
-                                    if (window.pendo._.isUndefined(mdValue)) { return; }
-                                    if (target === 'href') {
-                                        data[target] = decodeURI(data[target])
-                                            .replace(
-                                                matched[0],
-                                                window.encodeURI(mdValue)
-                                            );
-                                    } else {
-                                        data[target] = data[target]
-                                            .replace(
-                                                matched[0],
-                                                mdValue
-                                            );
-                                    }
-                                    window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
+
+                                    replaceMetadata(matched, data, target, mdValue);
                                 }
+                            }
+
+                            function replaceMetadata (matched, data, target, mdValue) {
+                                if (target === 'href') {
+                                    data[target] = decodeURI(data[target])
+                                        .replace(
+                                            matched[0],
+                                            window.encodeURI(mdValue)
+                                        );
+                                } else {
+                                    data[target] = data[target]
+                                        .replace(
+                                            matched[0],
+                                            mdValue
+                                        );
+                                }
+                                window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
                             }
 
                             function findSubstitutableUrlsInJson (originalData, placeholderData = []) {

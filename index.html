@@ -86,6 +86,7 @@
                                     substituteMetadata(placeholder);
                                 });
                             }
+                            
                             function substituteMetadata (placeholder) {
                                 let match;
                                 let mdValue;
@@ -118,19 +119,20 @@
                                         console.log(mdValue);
                                     });
                                 
-                                        if (target === 'href') {
-                                            data[target] = decodeURI(data[target])
-                                                .replace(
-                                                    matched[0],
-                                                    window.encodeURI(mdValue)
-                                                );
-                                        } else {
-                                            data[target] = data[target]
-                                                .replace(
-                                                    matched[0],
-                                                    mdValue
-                                                );
-                                        }
+                                    if (window.pendo._.isUndefined(mdValue)) { return; }
+                                    if (target === 'href') {
+                                        data[target] = decodeURI(data[target])
+                                            .replace(
+                                                matched[0],
+                                                window.encodeURI(mdValue)
+                                            );
+                                    } else {
+                                        data[target] = data[target]
+                                            .replace(
+                                                matched[0],
+                                                mdValue
+                                            );
+                                    }
                                     window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
                                 }
                             }

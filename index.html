@@ -116,10 +116,8 @@
                                     pendo.ajax(cfg).then(function (response) {
                                         mdValue = response.data;
                                         console.log(mdValue);
-                                        return mdValue;
                                     });
                                 
-                                    setTimeout(() => {
                                         if (target === 'href') {
                                             data[target] = decodeURI(data[target])
                                                 .replace(
@@ -133,7 +131,6 @@
                                                     mdValue
                                                 );
                                         }
-                                    },50);
                                     window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
                                 }
                             }

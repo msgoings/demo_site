@@ -117,11 +117,14 @@
                                         })
                                     };
                                     await pendo.ajax(cfg).then(function (response) {
-                                        mdValue = response.data;
+                                        mdValue = !pendo._.isUndefined(response.data) || !pendo._.isNull(response.data) ? response.data : 
+                                            !pendo._.isUndefined(defaultValue) || !pendo._.isNull(defaultValue) ? defaultValue : "";
                                         console.log(mdValue);
                                         pendo.dom("#pendo-base")[0].style.visibility = "visible";
                                         pendo.dom("._pendo-step-container-size")[0].style.visibility = "visible";
                                     });
+
+                                    if (pendo._.isUndefined(mdValue) || pendo._.isNull(mdValue))
                                 
                                     if (target === 'href') {
                                         data[target] = decodeURI(data[target])

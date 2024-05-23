@@ -88,6 +88,7 @@
                             }
                             function substituteMetadata (placeholder) {
                                 let match;
+                                let mdValue;
                                 const subRegex = new RegExp(substitutionRegex);
                                 while ((match = decodeURI(placeholder.data[placeholder.target]).match(subRegex) || placeholder.data[placeholder.target].match(subRegex))) {
                                     let matched = subRegex.exec(match);
@@ -113,8 +114,9 @@
                                         })
                                     };
                                     pendo.ajax(cfg).then(function (response) {
-                                        let mdValue = response.data;
+                                        mdValue = response.data;
                                         console.log(mdValue);
+                                        return mdValue;
                                     });
 
                                     if (target === 'href') {

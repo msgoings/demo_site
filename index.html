@@ -117,7 +117,12 @@
                                         })
                                     };
                                     await pendo.ajax(cfg).then(function (response) {
-                                        mdValue = !pendo._.isUndefined(response.data) || !pendo._.isNull(response.data) || !pendo._.isEmpty(response.data) ? response.data : !pendo._.isUndefined(defaultValue) || !pendo._.isNull(defaultValue) ? defaultValue : "";
+                                        console.warn(response);
+                                        mdValue = !pendo._.isUndefined(response.data) || !pendo._.isNull(response.data) || !pendo._.isEmpty(response.data) ? 
+                                            response.data : 
+                                            !pendo._.isUndefined(defaultValue) || !pendo._.isNull(defaultValue) ? 
+                                            defaultValue : 
+                                            "";
                                         console.log(mdValue);
                                         pendo.dom("#pendo-base")[0].style.visibility = "visible";
                                         pendo.dom("._pendo-step-container-size")[0].style.visibility = "visible";

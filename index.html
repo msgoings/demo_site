@@ -113,8 +113,8 @@
                                         })
                                     };
                                     pendo.ajax(cfg).then(function (response) {
-                                        let mdValue = response.body;
-                                        pendo.log(mdValue);
+                                        let mdValue = response.data;
+                                        console.log(mdValue);
                                     });
 
                                     if (target === 'href') {

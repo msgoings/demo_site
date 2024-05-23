@@ -118,7 +118,7 @@
                                     };
                                     await pendo.ajax(cfg).then(function (response) {
                                         console.warn(response);
-                                        mdValue = !pendo._.isUndefined(response.data) || !pendo._.isNull(response.data) || !pendo._.isEmpty(response.data) ? 
+                                        mdValue = !pendo._.isUndefined(response.data) || !pendo._.isNull(response.data) || !response.data === '' ? 
                                             response.data : 
                                             !pendo._.isUndefined(defaultValue) || !pendo._.isNull(defaultValue) ? 
                                             defaultValue : 

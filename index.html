@@ -117,21 +117,23 @@
                                         mdValue = response.data;
                                         console.log(mdValue);
                                         return mdValue;
-                                    });
-
-                                    if (target === 'href') {
+                                    }).then(function (mdValue) {
+                                        if (target === 'href') {
                                         data[target] = decodeURI(data[target])
                                             .replace(
                                                 matched[0],
                                                 window.encodeURI(mdValue)
                                             );
-                                    } else {
+                                        } else {
                                         data[target] = data[target]
                                             .replace(
                                                 matched[0],
                                                 mdValue
                                             );
-                                    }
+                                        }
+                                    });
+
+
                                     window.pendo.flexElement(window.pendo.dom('#pendo-guide-container'));
                                 }
                             }

@@ -87,7 +87,7 @@
                                 });
                             }
 
-                            function substituteMetadata (placeholder) {
+                            async function substituteMetadata (placeholder) {
                                 let match;
                                 let mdValue;
                                 const subRegex = new RegExp(substitutionRegex);
@@ -114,7 +114,7 @@
                                             default: defaultValue
                                         })
                                     };
-                                    pendo.ajax(cfg).then(function (response) {
+                                    await pendo.ajax(cfg).then(function (response) {
                                         mdValue = response.data;
                                         console.log(mdValue);
                                     });

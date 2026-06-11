@@ -37,6 +37,10 @@
 	        defaults: '2026-01-30',
 	        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
 	    })
+		posthog.identify(
+			'TestUser'+randomNumber,
+			{ email: 'test@test.com', name: 'Test McTester', plan_tier: 'Paid' }
+		)
 	</script>
     <!--<script>
         (function (apiKey) {

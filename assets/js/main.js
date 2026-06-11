@@ -15,6 +15,17 @@
 		xxsmall: '(max-width: 360px)'
 	});
 
+	addEventListener("click", (event) => {
+	    if (event.target.attributes?.class?.value == "button") {
+	        posthog.capture(
+  				event.target.textContent + ' Button',
+  				{
+    				button_link: event.target.attributes?.href?.value,
+  				}
+			)
+	    }
+	})
+
 	$(function() {
 
 		var	$window = $(window),
